@@ -82,22 +82,22 @@ def update_basic_info(basic_info_dict):
 if __name__ == '__main__':
     # p = Project()
     d = {
-    "_id" : ObjectId("5d1483fcde42a13dd0f56e31"),
-    "email" : " ",
-    "title" : "教授",
-    "institution" : "马克思主义学院",
-    "school" : "中国农业大学",
-    "edu_exp" : "1994-1997 北京大学，获得硕士学位\n2004—2008 中国农业大学，获得博士学位",
-    "name" : "王冬梅",
-    "id" : 73927,
-    "birth_year" : "1972",
-    "other_title" : " ",
-    "position" : " ",
-    "patent_id" : [],
-    "funds_id" : [],
-    "phone_number" : " ",
-    "office_number" : " ",
-    "paper_id" : []
-}
+        "_id": ObjectId("5d1483fcde42a13dd0f56e31"),
+        "email": " ",
+        "title": "教授",
+        "institution" : "马克思主义学院",
+        "school" : "中国农业大学",
+        "edu_exp" : "1994-1997 北京大学，获得硕士学位\n2004—2008 中国农业大学，获得博士学位",
+        "name" : "王冬梅",
+        "id" : 73927,
+        "birth_year" : "1972",
+        "other_title" : " ",
+        "position" : " ",
+        "patent_id" : [],
+        "funds_id" : [],
+        "phone_number" : " ",
+        "office_number" : " ",
+        "paper_id" : []
+    }
     # search_teacher_basic_info(73964)
     # update_basic_info(d)
