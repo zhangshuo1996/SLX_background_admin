@@ -21,16 +21,18 @@ def login_required(func):
         return func(*args, **kw)
     return wrapper
 
+
 @auth_bp.route('/')
 def index():
-    return  render_template("login.html")
+    return render_template("login.html")
+
 
 @auth_bp.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
         school = request.form.get("school")
         institution = request.form.get("institution")
-        print(school,institution)
+        print(school, institution)
     # if 'username' in session:
     #     return redirect(url_for('auth.index'))
 
@@ -59,10 +61,12 @@ def logout():
     session.pop('username', None)
     return redirect(url_for('auth.login'))
 
+
 @auth_bp.route('/products')
 @login_required
 def products():
     return render_template('products.html')
+
 
 @auth_bp.route('/accounts')
 @login_required
