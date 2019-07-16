@@ -10,13 +10,11 @@ def do_login(telephone=None, email=None, u_id=None, pwd=""):
     :param email: 邮箱
     :param u_id: 用户id
     :param pwd: 密码（32位字符串）
-    :return: 用户信息 ： （ID,NAME,TYPE）or None
+    :return: 用户信息 ： （ID,NAME）or None
     """
     # 连接服务器
     # client = pymongo.MongoClient("mongodb://" + MongoDB_CONFIG["ip"] + ":" + MongoDB_CONFIG["port"])
     mongo_operator = MongoOperator(**MongoDB_CONFIG)
-    # TODO: 目前查询最多有一个查询该用户的日程安排
-    # 条件
     condition = {'password': pwd}
 
     if telephone:
@@ -26,7 +24,7 @@ def do_login(telephone=None, email=None, u_id=None, pwd=""):
     elif u_id:
         condition['id'] = u_id
 
-    result = mongo_operator.find_one(condition, 'user')
+    result = mongo_operator.find_one(condition, 'administer')
     # 删除mongo的id
     if result:
         del result['_id']
