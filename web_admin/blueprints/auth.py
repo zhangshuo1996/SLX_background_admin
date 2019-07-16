@@ -37,27 +37,17 @@ def login():
         username = request.form.get("username")
         password = request.form.get("password")
         print(username,password)
-    session['username'] = username
-    # if 'username' in session:
-    #     return redirect(url_for('auth.index'))
 
-    # form = LoginForm()
-    # # 提交表单
-    # if form.validate_on_submit():
-    #     username = form.username.data
-    #     password = form.password.data
-    #     remember = form.remember.data
-    #
-    #     user = user_service.check_user(username, password)
-    #     # 检验账号密码
-    #     if user:
-    #         session['username'] = user["name"]
-    #         session['uid'] = user["id"]
-    #         session["type"] = user["type"]
-    #         # flash('登录成功，欢迎回来', 'success')
-    #         return redirect(url_for('school_agent.index'))
-    #     flash('登录失败，请检测账号或者密码后重新输入', 'danger')
-    return render_template('base.html')
+    user = user_service.check_user(username, password)
+    print(user)
+    # 检验账号密码
+    if user:
+        session['username'] = user["name"]
+        session['uid'] = user["id"]
+        return render_template('base.html')
+    else:
+        flash('登录失败，请检测账号或者密码后重新输入', 'danger')
+        return render_template('login.html')
 
 
 @auth_bp.route('/logout')

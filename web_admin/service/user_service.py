@@ -16,7 +16,6 @@ def check_user(username, password):
     u_id = re.compile(r"^\d{6,8}$")
     #  加密出密码
     password = encrypt.encryption(password)
-
     back = None
 
     # 利用正则判断用户名是否符合标准，以减少 sql 注入可能性
@@ -26,10 +25,14 @@ def check_user(username, password):
     elif email.match(username):
         # 以邮件登陆
         back = user_dao.do_login(email=username, pwd=password)
-    elif u_id.match(username):
-        # 以 id 登陆
-        back = user_dao.do_login(u_id=username, pwd=password)
+    else:
+        # 以 用户名登陆
+        back = user_dao.do_login(name=username, pwd=password)
 
     # 返回查询结果
     return back
 
+if __name__ == "__main__":
+    #测试登录
+    s = check_user('zhang','a')
+    # print(s)
