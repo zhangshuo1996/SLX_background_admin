@@ -8,7 +8,7 @@ body {
 }
 
 body {
-  background-image: url(../img/dash-bg-01.jpg);
+  background-image: url(../img/dash-bg-02.jpg);
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
@@ -22,7 +22,7 @@ body {
 }
 
 .bg03 {
-	background-image: url(../img/dash-bg-03.jpg);
+	background-image: url(../img/dash-bg-02.jpg);
 }
 
 a {
@@ -86,11 +86,12 @@ a:focus {
 
 .navbar-light .navbar-nav .nav-link {
   color: #656565;
+  font-size: 20px;
 }
 
 .navbar-light .navbar-nav .nav-link,
 .dropdown-item {
-  padding: 15px 20px;
+  padding: 15px 15px;
 }
 
 .navbar-light .navbar-nav .active > .nav-link,
@@ -378,6 +379,8 @@ footer {
 .tm-login-col {
   max-width: 600px;
 }
+
+
 
 @media (min-width: 992px) {
   .navbar-expand-lg .navbar-nav .nav-link {

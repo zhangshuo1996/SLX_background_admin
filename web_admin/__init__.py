@@ -23,7 +23,7 @@ def create_app(config_name=None):
     # 注册错误处理函数
     register_errors(app)
     # 注册模板上下文处理函数
-    register_template_context(app)
+    # register_template_context(app)
 
     return app
 
@@ -48,17 +48,17 @@ def register_errors(app):
         return render_template('errors/400.html', description="会话过期或失效，请返回上一页重试"), 400
 
 
-def register_template_context(app):
-    """注册模板上下文，使得变量可以在模板中使用"""
-    @app.context_processor
-    def make_template_context():
-        # 如果登录，则尝试拉取未读信息
-        unread_msg = 0
-        if 'username' in session:
-            uid = session['uid']
-            mongo_operator = MongoOperator(**MongoDB_CONFIG)
-            unread_msg = mongo_operator.find({"to_id": uid, "state": 0}, "message").count()
-
-        return dict(unread_msg=unread_msg)
+# def register_template_context(app):
+#     """注册模板上下文，使得变量可以在模板中使用"""
+#     @app.context_processor
+#     def make_template_context():
+#         # 如果登录，则尝试拉取未读信息
+#         unread_msg = 0
+#         if 'username' in session:
+#             uid = session['uid']
+#             mongo_operator = MongoOperator(**MongoDB_CONFIG)
+#             unread_msg = mongo_operator.find({"to_id": uid, "state": 0}, "message").count()
+#
+#         return dict(unread_msg=unread_msg)
 
 
