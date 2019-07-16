@@ -27,7 +27,7 @@ def index():
 
     if 'username' in session:
         username = session['username']
-        return render_template('base.html',username=username)
+        return render_template('products.html',username=username)
     else:
         return  render_template("login.html")
 
@@ -44,7 +44,7 @@ def login():
     if user:
         session['username'] = user["name"]
         session['uid'] = user["id"]
-        return render_template('base.html')
+        return render_template('products.html')
     else:
         flash('登录失败，请检测账号或者密码后重新输入', 'danger')
         return render_template('login.html')
@@ -57,13 +57,13 @@ def logout():
     return render_template("login.html")
 
 
-@auth_bp.route('/products')
+@auth_bp.route('/teacher_info')
 @login_required
-def products():
-    return render_template('products.html')
+def teacher_info():
+    return render_template('teacher_info.html')
 
 
-@auth_bp.route('/accounts')
+@auth_bp.route('/user_info')
 @login_required
-def accounts():
-    return render_template('accounts.html')
+def user_info():
+    return render_template('user_info.html')
