@@ -24,15 +24,20 @@ def login_required(func):
 
 @auth_bp.route('/')
 def index():
-    return render_template("login.html")
 
+    if 'username' in session:
+        username = session['username']
+        return render_template('base.html',username=username)
+    else:
+        return  render_template("login.html")
 
 @auth_bp.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
-        school = request.form.get("school")
-        institution = request.form.get("institution")
-        print(school, institution)
+        username = request.form.get("username")
+        password = request.form.get("password")
+        print(username,password)
+    session['username'] = username
     # if 'username' in session:
     #     return redirect(url_for('auth.index'))
 
@@ -52,14 +57,14 @@ def login():
     #         # flash('登录成功，欢迎回来', 'success')
     #         return redirect(url_for('school_agent.index'))
     #     flash('登录失败，请检测账号或者密码后重新输入', 'danger')
-    return render_template('index.html')
+    return render_template('base.html')
 
 
 @auth_bp.route('/logout')
 @login_required
 def logout():
     session.pop('username', None)
-    return redirect(url_for('auth.login'))
+    return render_template("login.html")
 
 
 @auth_bp.route('/products')
