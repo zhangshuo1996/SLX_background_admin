@@ -5,7 +5,6 @@ from web_admin.extensions import bootstrap,moment
 from web_admin.utils.mongo_operator import MongoOperator
 from web_admin.config import MongoDB_CONFIG
 from web_admin.blueprints.auth import auth_bp
-from web_admin.blueprints.teacher_info import teacher_info_bp
 
 
 def create_app(config_name=None):

@@ -27,7 +27,7 @@ def index():
 
     if 'username' in session:
         username = session['username']
-        return render_template('products.html',username=username)
+        return render_template('teacher_info.html',username=username)
     else:
         return  render_template("login.html")
 
@@ -44,7 +44,7 @@ def login():
     if user:
         session['username'] = user["name"]
         session['uid'] = user["id"]
-        return render_template('products.html')
+        return render_template('teacher_info.html')
     else:
         flash('登录失败，请检测账号或者密码后重新输入', 'danger')
         return render_template('login.html')
