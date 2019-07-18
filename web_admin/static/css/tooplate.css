@@ -139,7 +139,8 @@ a:focus {
 }
 
 .table-container{
-  height: auto;
+  height: 610px;
+  overflow: scroll;
 }
 .tm-col-small {
   width: 21.95%;
