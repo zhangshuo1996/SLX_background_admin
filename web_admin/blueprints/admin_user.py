@@ -1,34 +1,92 @@
-from web_admin.utils.mongo_operator import MongoOperator
-
-mongo = MongoOperator()
-user_col = mongo.get_collection("user")
-
-def add_user(user_dict):
-    """
-    将新建用户的信息入库
-    :param user_dict:
-    :return:
-    """
-
-    # TODO 处理user_dict
-
-    user_col.insert_one(user_dict)
+from flask import Blueprint, render_template, request, json
+from datetime import datetime
+from web_admin.service import user_manage_service
+from web_admin.blueprints.auth import login_required
+admin_user_bp = Blueprint('admin_user', __name__)
+auth_bp = Blueprint('auth', __name__)
 
 
-def delete_user(user_id):
-    """
-    根据user_id,删除对应的用户信息
-    :param user_id:
-    :return:
-    """
 
-    # TODO
-    user_col.delete_one({"id": user_id})
+@admin_user_bp.route('/user_info')
+@login_required
+def user_info():
+    user = user_manage_service.get_user()
+    return render_template('user_info.html',user=user)
+
+@admin_user_bp.route('/add_user',methods=["POST"])
+@login_required
+def add_user():
+    date = datetime.utcnow()
+    userlist = user_manage_service.get_user()
+    #获取最大id
+    userlist.sort(key=lambda ele: ele[4], reverse=True)
+    # print(id_max)
+    # 接受数据
+    name = request.form.get("name")
+    tel_number = request.form.get('tel_number')
+    email = request.form.get("email")
+    school = request.form.get("school")
+    school_list = school.split(" ")
+    type = request.form.get("type")
+    if type == "高校商务":
+        user_type = "0"
+    else:
+        user_type = "1"
+    user = {
+        "tel_number" : tel_number,
+        "type" : user_type,
+        "creation_time" : date,
+        "status" : "1",
+        "id" : userlist[0][4]+1,
+        "password" : "3b86247f12fa88a116e8e446614b3eae",
+        "name" : name,
+        "email" : email,
+        "charge_school" : school_list
+    }
+    try:
+        user_manage_service.add_user(user)
+        return json.dumps({"success": True, "message": "添加成功"})
+    except BaseException:
+        return json.dumps({"error":False, "message": "添加失败"})
+
+@admin_user_bp.route("/del_user",methods=['POST'])
+@login_required
+def del_user():
+    id = request.form.get("id")
+    print(id)
+    try:
+        user_manage_service.delete_user(int(id))
+        return json.dumps({"success": True, "message": "删除成功"})
+    except BaseException:
+        return json.dumps({"error": False, "message": "删除失败"})
 
 
-def update_user(update_dict):
-    """
-    根据update_dict更新对应的用户信息
-    :param update_dict:
-    :return:
-    """
+@admin_user_bp.route("/update_user",methods=['POST'])
+@login_required
+def update_user():
+    id = int(request.form.get("id"))
+    name = request.form.get("name")
+    tel_number = request.form.get("tel_number")
+    email = request.form.get("email")
+    school = request.form.get("school")
+    school = school.split(",")
+    type = request.form.get("type")
+
+    if type == "高校商务":
+        type = "0"
+    else:
+        type = "1"
+
+    user_dict = {
+        "id" : id,
+        "tel_number": tel_number,
+        "type": type,
+        "name": name,
+        "email": email,
+        "charge_school": school
+    }
+    try:
+        user_manage_service.update_user(user_dict)
+        return json.dumps({"success":True,"massage":"更新成功"})
+    except BaseException:
+        return json.dumps({"error":False,"message" :"更新失败，请稍后重试"})

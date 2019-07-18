@@ -15,14 +15,24 @@
     <link rel="stylesheet" href="../static/css/bootstrap.min.css">
     <!-- https://getbootstrap.com/ -->
     <link rel="stylesheet" href="../static/css/tooplate.css">
+    <style>
+        #alert-box-success,
+        #alert-box-danger{
+            position: fixed;
+            width: 270px;
+            top: 20%;
+            left: 50%;
+            transform: translateX(-135px);
+            z-index: 9999;
+        }
+        .hidden{
+            display: none;
+        }
+    </style>
     {% block head %}{% endblock %}
 </head>
 
-<script src="../static/js/jquery-3.3.1.min.js"></script>
-<!-- https://jquery.com/download/ -->
-<script src="../static/js/bootstrap.min.js"></script>
-<!-- https://getbootstrap.com/ -->
-{% block script %}{% endblock %}
+
 
 <body id="reportsPage">
     <div class="" id="home">
@@ -46,7 +56,7 @@
                                 </li>
 
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ url_for('auth.user_info') }}">用户管理</a>
+                                    <a class="nav-link" href="{{ url_for('admin_user.user_info') }}">用户管理</a>
                                 </li>
                             </ul>
                             <ul class="navbar-nav">
@@ -71,8 +81,61 @@
             </div>
         </div>
     </div>
-<div class="main">
+<div class="container">
+
     {% block main %}{% endblock %}
+    <div id="alert-box-success" class="alert alert-success hidden">
+        <strong><span class="alert-message">操作成功</span></strong>
+    </div>
+    <div id="alert-box-danger" class="alert alert-danger hidden">
+        <strong><span class="alert-message">操作失败，请稍后再试</span></strong>
+    </div>
 </div>
+
+<script src="../static/js/jquery-3.3.1.min.js"></script>
+<!-- https://jquery.com/download/ -->
+<script src="../static/js/bootstrap.min.js"></script>
+<!-- https://getbootstrap.com/ -->
+<script>
+/**
+ * 显示/隐藏提示框
+ * @param {boolean} isSuccess
+ * @param {string} modal 模态框id, 用于隐藏模态框
+ * @param {string} message 用于显示的消息
+ */
+function toggle_alert(isSuccess, modal, message = ""){
+    if(modal){
+        $(`#${modal}`).modal("hide");
+    }
+
+    let alert_success = $("#alert-box-success");
+    let alert_error = $("#alert-box-danger");
+    // 显示操作成功的提示框
+    if(isSuccess){
+        alert_error.hide();
+
+        if(message){
+            alert_success.find('.alert-message').text(message);
+        }
+
+        alert_success.show(1000);
+        setTimeout(()=>{
+            alert_success.hide(1000);
+        }, 2000)
+    }else{
+        alert_success.hide();
+
+        if(message){
+            alert_error.find('.alert-message').text(message);
+        }
+
+        alert_error.show(1000);
+        setTimeout(()=>{
+            alert_error.hide(1000);
+        },2000);
+    }
+}
+</script>
+{% block script %}{% endblock %}
 </body>
 </html>

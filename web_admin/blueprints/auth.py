@@ -36,10 +36,8 @@ def login():
     if request.method == 'POST':
         username = request.form.get("username")
         password = request.form.get("password")
-        print(username,password)
 
     user = user_service.check_user(username, password)
-    print(user)
     # 检验账号密码
     if user:
         session['username'] = user["name"]
@@ -62,8 +60,3 @@ def logout():
 def teacher_info():
     return render_template('teacher_info.html')
 
-
-@auth_bp.route('/user_info')
-@login_required
-def user_info():
-    return render_template('user_info.html')

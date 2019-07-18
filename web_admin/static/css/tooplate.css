@@ -67,7 +67,7 @@ a:focus {
 }
 
 .tm-mt-big {
-  margin-top: 70px;
+  margin-top: 70px;;
 }
 
 .tm-mt-small {
@@ -122,10 +122,25 @@ a:focus {
   margin-bottom: 50px;
 }
 
-.tm-col-big {
-  width: 39%;
+.user-list-container{
 }
 
+.tm-col-big {
+  width: 70%;
+  height: 800px;
+}
+
+.tm-col-big tr{
+  height: 10px;
+}
+
+.tm-col-big1 {
+  width: 30%;
+}
+
+.table-container{
+  height: auto;
+}
 .tm-col-small {
   width: 21.95%;
 }
@@ -184,7 +199,7 @@ ol {
 
 .form-control {
   margin-bottom: 23px;
-  padding: 19px 18px;
+  padding: 9px 18px;
   border-radius: 0;
   height: 50px;
 }
@@ -195,16 +210,19 @@ label {
 
 .btn {
   border-radius: 0;
-  padding: 13px 28px;
+  padding: 2px 28px;
   transition: all 0.2s ease;
   max-width: 100%;
 }
+
+
 
 .btn-small {
   padding: 10px 24px;
 }
 
 .btn-primary {
+  padding: 6px 9px;
   background-color: transparent;
   color: black;
   border-color: #999999;
@@ -219,8 +237,12 @@ label {
   background-color: #cdd4da;
   border-color: #999999;
 }
+.btn-info{
+  padding: 2px 20px;
+}
 
 .btn-danger {
+  padding: 6px 9px;
   color: #9f1321;
   background-color: transparent;
   border-color: #9f1321;
@@ -245,8 +267,8 @@ label {
 }
 
 .table td,
-.table th {
-  padding: 20px 24px;
+.table th{
+  padding: 11px 14px;
 }
 
 .table-hover tbody tr:hover {
@@ -447,7 +469,6 @@ footer {
   .tm-col-small {
     width: 100%;
     min-height: 383px;
-    height: auto;
   }
   .tm-block {
     padding: 30px;

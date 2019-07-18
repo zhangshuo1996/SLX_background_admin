@@ -1,99 +1,111 @@
 {% extends 'base.html' %}
 {% block title %}用户管理{% endblock %}
+{% block script %}
+    <script src="https://cdn.staticfile.org/popper.js/1.12.5/umd/popper.min.js"></script>
+    <script src="../static/js/user_info.js  "></script>
 
+{% endblock %}
 {% block main %}
-
         <div class="row tm-content-row tm-mt-big">
-            <div class="tm-col tm-col-big">
+            <div class="user-list-container tm-col tm-col-big">
                 <div class="bg-white tm-block">
                     <div class="row">
                         <div class="col-12">
-                            <h2 class="tm-block-title d-inline-block">Accounts</h2>
+                            <h2 class="tm-block-title d-inline-block">用户列表</h2>
+                            <div class="input-group mb-3" style="width: 40%;float: right">
+                              <input type="text" class="form-control"  id="myInput" name="content">
+                              <div class="input-group-append">
+                                <button type="submit" class="btn btn-success" onclick="myFunction()">搜索</button>
+                              </div>
+                            </div>
                         </div>
+
                     </div>
-                    <ol class="tm-list-group tm-list-group-alternate-color tm-list-group-pad-big">
-                        <li class="tm-list-group-item">
-                            Donec eget libero
-                        </li>
-                        <li class="tm-list-group-item">
-                            Nunc luctus suscipit elementum
-                        </li>
-                        <li class="tm-list-group-item">
-                            Maecenas eu justo maximus
-                        </li>
-                        <li class="tm-list-group-item">
-                            Pellentesque auctor urna nunc
-                        </li>
-                        <li class="tm-list-group-item">
-                            Sit amet aliquam lorem efficitur
-                        </li>
-                        <li class="tm-list-group-item">
-                            Pellentesque auctor urna nunc
-                        </li>
-                        <li class="tm-list-group-item">
-                            Sit amet aliquam lorem efficitur
-                        </li>
-                    </ol>
+                    <div class="row table-container">
+                        <table  id="myTable" class="table table-striped">
+                            <thead>
+                              <tr>
+                                <th>用户名</th>
+                                <th>联系电话</th>
+                                <th>用户邮箱</th>
+                                <th>所在学校</th>
+                                <th>用户类型</th>
+                                <th></th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                            {% for i in user %}
+                              <tr>
+
+                                <td>{{ i[0] }}</td>
+                                <td>{{ i[1] }}</td>
+                                <td>{{ i[2] }}</td>
+                                <td>{{ i[3] }}</td>
+                                  {% if i[5] == "0" %}
+                                    <td>{{ "高校商务" }}</td>
+                                  {% else %}
+                                    <td>{{ "政府商务" }}</td>
+                                  {% endif %}
+                                <td style= "display:none">{{ i[6] }}</td>
+                                <td><button type="button" class="btn btn-info" onclick="edit($(this))">编辑</button></td>
+                              </tr>
+                            {% endfor %}
+                            </tbody>
+                          </table>
+                    </div>
                 </div>
             </div>
-            <div class="tm-col tm-col-big">
+            <div class="tm-col tm-col-big tm-col-big1">
                 <div class="bg-white tm-block">
                     <div class="row">
                         <div class="col-12">
-                            <h2 class="tm-block-title">Edit Account</h2>
+                            <h2 class="tm-block-title">用户编辑</h2>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-12">
-                            <form action="" class="tm-signup-form">
+                            <form class="tm-signup-form" id="myform">
                                 <div class="form-group">
-                                    <label for="name">Account Name</label>
-                                    <input placeholder="Vulputate Eleifend Nulla" id="name" name="name" type="text" class="form-control validate">
+                                    <label for="name">用户名</label>
+                                    <input  id="name" name="name" type="text" class="form-control validate" required>
                                 </div>
                                 <div class="form-group">
-                                    <label for="email">Account Email</label>
-                                    <input placeholder="vulputate@eleifend.co" id="email" name="email" type="email" class="form-control validate">
+                                    <label for="tel_number">联系电话</label>
+                                    <input id="tel_number" name="tel_number" type="text" class="form-control validate" required>
                                 </div>
                                 <div class="form-group">
-                                    <label for="password">Password</label>
-                                    <input placeholder="******" id="password" name="password" type="password" class="form-control validate">
+                                    <label for="email">用户邮箱</label>
+                                    <input  id="email" name="email" type="email" class="form-control validate" required>
                                 </div>
                                 <div class="form-group">
-                                    <label for="password2">Re-enter Password</label>
-                                    <input placeholder="******" id="password2" name="password2" type="password" class="form-control validate">
+                                    <label for="school">所在学校</label>
+                                    <input id="school" name="school" placeholder="请用空格间隔学校" type="text" class="form-control validate" required>
                                 </div>
                                 <div class="form-group">
-                                    <label for="phone">Phone</label>
-                                    <input placeholder="010-030-0440" id="phone" name="phone" type="tel" class="form-control validate">
+                                    <label for="type">用户类型</label>
+                                    <select id="type" class="form-control">
+                                      <option>高校商务</option>
+                                      <option>政府商务</option>
+                                    </select>
                                 </div>
+                                <input id="id" name="id" style="display: none" type="text">
                                 <div class="row">
                                     <div class="col-12 col-sm-4">
-                                        <button type="submit" class="btn btn-primary">Update
+                                        <button type="button" class="btn btn-primary" onclick="update_user()">更新此用户
                                         </button>
                                     </div>
                                     <div class="col-12 col-sm-8 tm-btn-right">
-                                        <button type="submit" class="btn btn-danger">Delete Account
+                                        <button  type="button" class="btn btn-danger"  onclick="add_newuser()">新增用户
+                                        </button>
+                                        <button  type="button" class="btn btn-danger"  onclick="del_user()">删除此用户
                                         </button>
                                     </div>
                                 </div>
-
                             </form>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="tm-col tm-col-small">
-                <div class="bg-white tm-block">
-                    <h2 class="tm-block-title">Profile Image</h2>
-                    <img src="img/profile-image.png" alt="Profile Image" class="img-fluid">
-                    <div class="custom-file mt-3 mb-3">
-                        <input id="fileInput" type="file" style="display:none;" />
-                        <input type="button" class="btn btn-primary d-block mx-xl-auto" value="Upload New..." onclick="document.getElementById('fileInput').click();"
-                        />
-                    </div>
-                </div>
-            </div>
         </div>
-     </div>
-
 {% endblock %}
+
