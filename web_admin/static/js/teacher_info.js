@@ -22,7 +22,6 @@ $(".display").on("click",(e)=>{
     let institution = e.children()[5].textContent;
     let title = e.children()[6].textContent;
     let honor = e.children()[7].textContent;
-    console.log(honor);
     let email = e.children()[8].textContent;
     let phone_number = e.children()[9].textContent;
     let office_number = e.children()[10].textContent;
@@ -30,6 +29,8 @@ $(".display").on("click",(e)=>{
     let teacher_id = e.children()[12].textContent;
     let birth_year = e.children()[13].textContent;
     let object_id = e.children()[14].textContent;
+    let domain = e.children()[15].textContent;
+    let department = e.children()[16].textContent;
     //将取出的信息填充到左边table的第三列，所以从thd[2]开始,逐个加3，就都是修改第三列
 
 
@@ -38,23 +39,26 @@ $(".display").on("click",(e)=>{
         thd[5].textContent = "";
     }
     else thd[5].textContent = birth_year;
-    thd[8].textContent = school+institution;
+    thd[8].textContent = school+institution+department;
     thd[11].textContent = title+"\t"+honor;
-    thd[14].textContent = email;
-    thd[17].textContent = office_number;
-    thd[20].textContent = phone_number;
-    thd[23].textContent = edu_exp;
+    thd[14].textContent = domain;
+    thd[17].textContent = email;
+    thd[20].textContent = office_number;
+    thd[23].textContent = phone_number;
+    thd[26].textContent = edu_exp;
     //隐藏数据，用于提交给数据库
-    thd[24].textContent = school;
-    thd[25].textContent= institution;
-    thd[26].textContent= title;
-    thd[27].textContent = honor;
-    thd[28].textContent = teacher_id;
-    thd[29].textContent = object_id;
+    thd[27].textContent = school;
+    thd[28].textContent= institution;
+    thd[29].textContent= title;
+    thd[30].textContent = honor;
+    thd[31].textContent = teacher_id;
+    thd[32].textContent = object_id;
+    thd[33].textContent  = department;
     if(teacher_id != "None") {
+        let type = $(".type");
+        type.text("具体信息（修改信息）");
         //从数据库中将这个老师的数据取出来
         let data = {"teacher_id": teacher_id};
-        console.log(data);
         $.ajax({
             type: "post",
             url: "/get_info_by_tid",
@@ -64,17 +68,16 @@ $(".display").on("click",(e)=>{
                 //填充到左边table的第二栏
                 thd[1].textContent = response["name"];
                 thd[4].textContent = response["birth_year"];
-                thd[7].textContent = response["school"] + response["institution"];
+                thd[7].textContent = response["school"] + response["institution"]+response["department"];
                 thd[10].textContent = response["title"]+"\t"+response["honor"];
-                thd[13].textContent = response["email"];
-                thd[16].textContent = response["office_number"];
-                thd[19].textContent = response["phone_number"];
-                thd[22].textContent = response["edu_exp"];
-                for (var i=1; i<=22; i += 3)
+                thd[13].textContent = response["domain"];
+                thd[16].textContent = response["email"];
+                thd[19].textContent = response["office_number"];
+                thd[22].textContent = response["phone_number"];
+                thd[25].textContent = response["edu_exp"];
+                for (var i=1; i<=25; i += 3)
                 {
                     if(thd[i].textContent != thd[i+1].textContent){
-                        console.log(thd[i]);
-                        console.log(thd[i+1].textContent);
                         $(thd[i+1]).css("color","red");
                     }
                 }
@@ -95,6 +98,7 @@ $(".display").on("click",(e)=>{
                 thd[16].textContent = "";
                 thd[19].textContent = "";
                 thd[22].textContent = "";
+                thd[25].textContent = "";
 
     }
 
@@ -107,24 +111,29 @@ $(".preservation").on("click",(e)=>{
     let tbody = $(".displaying");
     let name= thd[2].textContent;
     let birth_year = thd[5].textContent;
-    let school = thd[24].textContent;
-    let institution=  thd[25].textContent;
-    let title = thd[26].textContent;
-    let honor = thd[27].textContent;
-    let email  = thd[14].textContent;
-    let office_number = thd[17].textContent;
-    let phone_number = thd[20].textContent;
-    let edu_exp = thd[23].textContent;
-    let teacher_id = thd[28].textContent;
-    let object_id = thd[29].textContent;
+    let school = thd[27].textContent;
+    let institution=  thd[28].textContent;
+    let title = thd[29].textContent;
+    let honor = thd[30].textContent;
+    let domain = thd[14].textContent;
+    let email  = thd[17].textContent;
+    let office_number = thd[20].textContent;
+    let phone_number = thd[23].textContent;
+    let edu_exp = thd[26].textContent;
+    let teacher_id = thd[31].textContent;
+    let object_id = thd[32].textContent;
+    let department = thd[33].textContent;
     let data = {
         "name": name,
+        "birth_year":birth_year,
+        "domain":domain,
         "email": email,
         "office_number": office_number,
         "phone_number": phone_number,
         "edu_exp": edu_exp,
         "school": school,
         "institution": institution,
+        'department':department,
         "title": title,
         "honor": honor,
         "teacher_id": teacher_id,
@@ -142,32 +151,32 @@ $(".preservation").on("click",(e)=>{
         },
         error: function (error) {
             console.log(error);
-            toggle_alert(false, "服务器连接失败，请稍后再试");
+            toggle_alert(false, "操作失败，请稍后再试");
         }
     })
 
 });
 
-// $(".ignore").on("click",(e)=>{
-//     console.log("ignore");
-//     let tbody = $(".displaying");
-//     thd = tbody.children().children();
-//     let object_id = thd[29].textContent;
-//     data = {"object_id":object_id};
-//     $.ajax({
-//         type: "post",
-//         url: "/data_ignore",
-//         data: data,
-//         dataType: "json",
-//             success: function (response) {
-//             console.log(response);
-//
-//         },
-//         error: function (error) {
-//             console.log(error);
-//         }
-//     })
-// });
+$(".ignore").on("click",(e)=>{
+    console.log("ignore");
+    let tbody = $(".displaying");
+    thd = tbody.children().children();
+    let object_id = thd[32].textContent;
+    data = {"object_id":object_id};
+    $.ajax({
+        type: "post",
+        url: "/data_ignore",
+        data: data,
+        dataType: "json",
+            success: function (response) {
+            console.log(response);
+
+        },
+        error: function (error) {
+            console.log(error);
+        }
+    })
+});
 
 
     /**

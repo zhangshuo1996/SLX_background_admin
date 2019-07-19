@@ -27,17 +27,22 @@
                               <td></td>
                             </tr>
                             <tr>
-                              <th scope="row">出生日期</th>
+                              <th scope="row">出生年份</th>
                               <td></td>
                               <td></td>
                             </tr>
                             <tr>
-                              <th scope="row">学校、学院</th>
+                              <th scope="row">学校、学院、系</th>
                               <td></td>
                               <td></td>
                             </tr>
                             <tr>
                               <th scope="row">职称、头衔</th>
+                              <td></td>
+                              <td></td>
+                            </tr>
+                            <tr>
+                              <th scope="row">领域</th>
                               <td></td>
                               <td></td>
                             </tr>
@@ -62,6 +67,7 @@
                             <td></td>
                                   </tr>
                         <tr>
+                            <td style="display: none"></td>
                             <td style="display: none"></td>
                             <td style="display: none"></td>
                             <td style="display: none"></td>
@@ -109,7 +115,9 @@
                                <td style="display: none">{{ info.edu_exp }}</td>
                               <td style="display: none">{{ info.teacher_id }}</td>
                                   <td style="display: none">{{ info.birth_year }}</td>
-                                <td style="display: none" class="object_id">{{ info._id }}</td>
+                                <td style="display: none" >{{ info._id }}</td>
+                                <td style="display: none">{{ info.domain }}</td>
+                              <td style="display: none">{{ info.department }}</td>
                               </tr>
                               {% endfor %}
                               </tbody>
