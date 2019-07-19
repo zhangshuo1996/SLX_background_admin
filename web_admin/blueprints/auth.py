@@ -54,9 +54,9 @@ def logout():
     session.pop('username', None)
     return render_template("login.html")
 
-
-@auth_bp.route('/teacher_info')
-@login_required
-def teacher_info():
-    return render_template('teacher_info.html')
+#
+# @auth_bp.route('/teacher_info')
+# @login_required
+# def teacher_info():
+#     return render_template('teacher_info.html')
 
