@@ -26,8 +26,7 @@ def login_required(func):
 def index():
 
     if 'username' in session:
-        username = session['username']
-        return render_template('teacher_info.html',username=username)
+        return render_template('teacher_info.html')
     else:
         return  render_template("login.html")
 
