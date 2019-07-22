@@ -19,7 +19,7 @@ def teacher_info():
     :return: agent_feedback表中所有未处理的信息，honor和domain转换为字符串
     """
     modify_info = teacher_info_service.get_modify_info()
-    print(modify_info)
+
     return render_template('teacher_info.html',modify_info =modify_info)
 
 @teacher_info_bp.route('/get_info_by_tid',methods=['POST'])
