@@ -22,7 +22,6 @@ $(".display").on("click",(e)=>{
     let institution = e.children()[5].textContent;
     let title = e.children()[6].textContent;
     let honor = e.children()[7].textContent;
-    console.log(honor);
     let email = e.children()[8].textContent;
     let phone_number = e.children()[9].textContent;
     let office_number = e.children()[10].textContent;
@@ -42,7 +41,7 @@ $(".display").on("click",(e)=>{
     else thd[5].textContent = birth_year;
     thd[8].textContent = school+institution+department;
     thd[11].textContent = title+"\t"+honor;
-    thd[14].textContent = domain
+    thd[14].textContent = domain;
     thd[17].textContent = email;
     thd[20].textContent = office_number;
     thd[23].textContent = phone_number;
@@ -60,7 +59,6 @@ $(".display").on("click",(e)=>{
         type.text("具体信息（修改信息）");
         //从数据库中将这个老师的数据取出来
         let data = {"teacher_id": teacher_id};
-        console.log(data);
         $.ajax({
             type: "post",
             url: "/get_info_by_tid",
@@ -80,8 +78,6 @@ $(".display").on("click",(e)=>{
                 for (var i=1; i<=25; i += 3)
                 {
                     if(thd[i].textContent != thd[i+1].textContent){
-                        console.log(thd[i]);
-                        console.log(thd[i+1].textContent);
                         $(thd[i+1]).css("color","red");
                     }
                 }

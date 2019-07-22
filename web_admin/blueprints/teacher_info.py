@@ -65,7 +65,6 @@ def get_info_by_tid():
             else:
                 honors_str += honor
         teacher_info_from_db['honor'] = honors_str
-    print(teacher_info_from_db)
     if 'domain' in teacher_info_from_db:
         if teacher_info_from_db['domain'] != [] and teacher_info_from_db['domain'] != None:
             domain_str= ''
@@ -79,7 +78,6 @@ def get_info_by_tid():
         teacher_info_from_db['domain'] = ''
     if 'department' not in teacher_info_from_db:
         teacher_info_from_db['department'] = ''
-    print(teacher_info_from_db)
     return json.dumps(teacher_info_from_db,ensure_ascii=False)
 
 @teacher_info_bp.route('/data_preservation', methods=['POST'])
@@ -98,14 +96,12 @@ def data_preservation():
         honors = honor_str.split(' ')
     else:
         honors = []
-    print(honors)
     domain_str = request.form.get('domain')
     if domain_str != ''and domain_str != None:
         domain = domain_str.split(' ')
     else:
         #防止domain出现['']的情况
         domain = []
-    print(domain)
     data = {
         'name':request.form.get('name'),
         'school':request.form.get('school'),
