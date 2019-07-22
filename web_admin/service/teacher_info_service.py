@@ -128,7 +128,7 @@ def update_basic_info(teacher_id,obj_id,data):
                                                                         'department':data.get('department'),
                                                                       'birth_year': data.get('birth_year'),
                                                                       'title': data.get('title'),
-                                                                      'honor': data.get('honors'),
+                                                                      'honor': data.get('honor'),
                                                                       'domain': data.get('domian'),
                                                                       'email': data.get('email'),
                                                                       'office_number': data.get('office_number'),
