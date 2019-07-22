@@ -1,3 +1,8 @@
+"""
+用户管理的增加、删除、修改、查询
+by:董峰
+"""
+
 from flask import Blueprint, render_template, request, json
 from datetime import datetime
 from web_admin.service import user_manage_service
@@ -16,11 +21,14 @@ def user_info():
 @admin_user_bp.route('/add_user',methods=["POST"])
 @login_required
 def add_user():
+    """
+    增加用户
+    :return:
+    """
     date = datetime.utcnow()
     userlist = user_manage_service.get_user()
     #获取最大id
     userlist.sort(key=lambda ele: ele[4], reverse=True)
-    # print(id_max)
     # 接受数据
     name = request.form.get("name")
     tel_number = request.form.get('tel_number')
@@ -52,6 +60,10 @@ def add_user():
 @admin_user_bp.route("/del_user",methods=['POST'])
 @login_required
 def del_user():
+    '''
+    根据用户id删除数据
+    :return:
+    '''
     id = request.form.get("id")
     print(id)
     try:
@@ -64,6 +76,10 @@ def del_user():
 @admin_user_bp.route("/update_user",methods=['POST'])
 @login_required
 def update_user():
+    """
+    更新用户信息，包括用户名、联系电话、邮箱、所在学校和用户类型
+    :return:
+    """
     id = int(request.form.get("id"))
     name = request.form.get("name")
     tel_number = request.form.get("tel_number")
