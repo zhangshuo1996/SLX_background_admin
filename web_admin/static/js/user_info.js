@@ -1,5 +1,6 @@
 
 function myFunction() {
+  //搜索表格中的用户
   // 声明变量
   var input, filter, table, tr, td, i;
   input = document.getElementById("myInput");
@@ -19,6 +20,8 @@ function myFunction() {
       }
 }
 function add_newuser() {
+    //增加新的用户
+    //获取表单中的数据
     let name = $("#name").val();
     let tel_number = $("#tel_number").val();
     let email = $("#email").val();
@@ -26,6 +29,7 @@ function add_newuser() {
     var  myselect=document.getElementById("type");
     var index=myselect.selectedIndex ;
     var type = myselect.options[index].text;
+    //对某些信息做出限制
     if(name==""){
         toggle_alert("False", "", "用户名不能为空！");
         return false;
@@ -75,6 +79,8 @@ function add_newuser() {
 }
 
 function update_user() {
+    //更新用户信息
+    //获取表单中的消息和用户id
     let id = $("#id").val();
     let name = $("#name").val();
     let tel_number = $("#tel_number").val();
@@ -83,6 +89,7 @@ function update_user() {
     var  myselect=document.getElementById("type");
     var index=myselect.selectedIndex ;
     var type = myselect.options[index].text;
+    //对某些信息做出限制
     if(name==""){
         toggle_alert("False", "", "用户名不能为空！");
         return false;
@@ -107,7 +114,6 @@ function update_user() {
     }
 
     let data = {"id":id, "name": name, "tel_number": tel_number, "email": email, "school": school, "type": type}
-    console.log(data)
     $.ajax({
     type: "post",
     url: "/update_user",
@@ -129,6 +135,7 @@ function update_user() {
 }
 
 function edit(e) {
+    //将用户的数据从左边的table中填写到右边的form表单中
     tds = e.parent().siblings();
     let name = tds[0].innerText;
     let tel_number = tds[1].innerText;
@@ -141,12 +148,12 @@ function edit(e) {
     $("#email").val(email);
     $("#school").val(school);
     $("#id").val(id);
-    console.log(id)
     var  myselect=document.getElementById("type");
     myselect.value=type
 }
 
 function del_user(){
+    //根据用户id删除某个用户
     if(confirm('确定要删除此用户吗?')) {
         let id = $("#id").val();
         let data = {"id":id}
