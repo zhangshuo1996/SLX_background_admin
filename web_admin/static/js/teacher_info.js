@@ -1,4 +1,5 @@
 /**
+/**
  * 点击右侧的商务和时间那一行，在左边将信息展示出来
  */
 $(".display").on("click",(e)=>{
@@ -8,7 +9,7 @@ $(".display").on("click",(e)=>{
     let tbody = $(".displaying");
     thd = tbody.children().children();
     //将左侧表格中字体颜色设置为黑色，否则在一次改变为红色后，这个td将变为红色
-    for (var i=1; i<=22; i += 3)
+    for (var i=1; i<=25; i += 3)
         {
             $(thd[i]).css("color","black");
             $(thd[i+1]).css("color","black");
