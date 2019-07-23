@@ -1,0 +1,103 @@
+{% extends 'base.html' %}
+{% block title %}项目信息管理{% endblock %}
+
+{% block main %}
+
+    <div class="row tm-content-row tm-mt-big">
+        <div class="col-xl-8 col-lg-8 tm-md-12 tm-sm-12 tm-col">
+            <div class="bg-white tm-block h-100">
+                <div class="row">
+                    <div class="col-md-8 col-sm-12">
+                        <h2 class="tm-block-title d-inline-block type">项目信息</h2>
+                    </div>
+                </div>
+                <form>
+                    <table class="table" style="table-layout: fixed;">
+                        <tbody class = "displaying">
+                            <tr>
+                              <th colspan="1" scope="row">项目编号</th>
+                              <td colspan="4">001</td>
+                            </tr>
+                            <tr>
+                              <th scope="row">项目名称</th>
+                              <td colspan="4">肥料氮素迁移转化过程与损失阻控机制</td>
+                            </tr>
+                            <tr>
+                              <th scope="row">项目类型</th>
+                              <td colspan="4">重点研发计划</td>
+                            </tr>
+                            <tr>
+                              <th scope="row">项目资金</th>
+                              <td colspan="4">5500万元</td>
+                            </tr>
+                            <tr>
+                              <th scope="row">起止时间</th>
+                              <td colspan="4">2017-01-22-2019-01-22</td>
+                            </tr>
+                            <tr>
+                              <th scope="row">项目负责人</th>
+                              <td colspan="4">颜晓元</td>
+                            </tr>
+                              <tr>
+                              <th scope="row">其他成员</th>
+                              <td colspan="4"></td>
+                            </tr>
+                            <tr>
+                              <th scope="row">支撑单位</th>
+                              <td colspan="4"></td>
+                            </tr>
+                            <tr>
+                              <th scope="row">项目简介</th>
+                              <td colspan="4">化学肥料和农药减施增效综合技术研发</td>
+                            </tr>
+                          </tbody>
+                        </table>
+                        <div style="float:right;margin-bottom:10px" ><button type="button" class="btn btn-primary ignore" >忽略 </button>
+                            <button type="button" class="btn btn-primary preservation" style="margin-left:10px ">新增信息</button>
+                        </div>
+                    </form>
+                    </div>
+                </div>
+
+                <div class="col-xl-4 col-lg-4    tm-md-12 tm-sm-12 tm-col">
+                    <div class="bg-white tm-block h-100">
+                        <h2 class="tm-block-title d-inline-block">
+                            信息列表
+                            &nbsp;
+                        <small class="text-muted" id="total">({{ modify_info|length }})</small>
+                        </h2>
+                            <table class="table table-striped">
+                              <thead>
+                                <tr>
+                                  <th scope="col">商务</th>
+                                  <th scope="col">时间</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                              <tr>
+                                  <td>杨秀宁</td>
+                                  <td>2019-07-22</td>
+                              </tr>
+                              <tr>
+                                  <td>杨秀宁</td>
+                                  <td>2019-07-22</td>
+                              </tr>
+                              {%  for info in modify_info %}
+
+                              {% endfor %}
+                              </tbody>
+                            </table>
+
+                                </div>
+                                            </div>
+                                        </div>
+
+        </div>
+    </div>
+
+{% endblock %}
+
+{#{% block script %}#}
+{#    <script src="../static/js/teacher_info.js"></script>#}
+{#{% endblock %}#}
+
