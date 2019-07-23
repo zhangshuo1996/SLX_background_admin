@@ -27,7 +27,7 @@ function add_newuser() {
     let email = $("#email").val();
     let school = $("#school").val();
     var  myselect=document.getElementById("type");
-    var index=myselect.selectedIndex ;
+    var index= myselect.selectedIndex ;
     var type = myselect.options[index].text;
     //对某些信息做出限制
     if(name==""){
@@ -64,7 +64,6 @@ function add_newuser() {
     data: data,
     dataType: "json",
     success: function (response) {
-        console.log(response);
         toggle_alert(response.success, "", response.message);
          $("#name").val("");
          $("#tel_number").val("");
@@ -72,8 +71,7 @@ function add_newuser() {
          $("#school").val("");
     },
     error: function(response){
-        console.log(response);
-        toggle_alert(response.error, "", response.message);
+        toggle_alert(response.success, "", response.message);
     }
 });
 }
@@ -129,7 +127,7 @@ function update_user() {
     },
     error: function(response){
         console.log(response);
-        toggle_alert(response.error, "", response.message);
+        toggle_alert(response.success, "", response.message);
     }
 });
 }
@@ -168,7 +166,7 @@ function del_user(){
             },
             error: function (response) {
                 console.log(response);
-                toggle_alert(response.error, "", response.message);
+                toggle_alert(response.success, "", response.message);
             }
         });
     }

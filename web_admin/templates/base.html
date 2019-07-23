@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="../static/css/bootstrap.min.css">
     <!-- https://getbootstrap.com/ -->
     <link rel="stylesheet" href="../static/css/tooplate.css">
+    <link rel="icon" type="image/x-icon" href="../static/img/favicon.ico">
     <style>
         #alert-box-success,
         #alert-box-danger{
@@ -68,7 +69,7 @@
                                     </a>
                                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                         <a class="dropdown-item" href="{{ url_for('teacher_info.teacher_info') }}">反馈信息管理</a>
-                                        <a class="dropdown-item" href="#">教师信息查询</a>
+                                        <a class="dropdown-item" href="{{ url_for('teacher_info.teacher_search') }}">教师信息查询</a>
                                     </div>
                                 </li>
 
@@ -135,9 +136,9 @@ function toggle_alert(isSuccess, modal, message = ""){
             alert_success.find('.alert-message').text(message);
         }
 
-        alert_success.show(1000);
+        alert_success.show(2000);
         setTimeout(()=>{
-            alert_success.hide(1000);
+            alert_success.hide(2000);
         }, 2000)
     }else{
         alert_success.hide();
@@ -146,9 +147,9 @@ function toggle_alert(isSuccess, modal, message = ""){
             alert_error.find('.alert-message').text(message);
         }
 
-        alert_error.show(1000);
+        alert_error.show(2000);
         setTimeout(()=>{
-            alert_error.hide(1000);
+            alert_error.hide(2000);
         },2000);
     }
 }

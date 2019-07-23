@@ -55,7 +55,7 @@ def add_user():
         user_manage_service.add_user(user)
         return json.dumps({"success": True, "message": "添加成功"})
     except BaseException:
-        return json.dumps({"error":False, "message": "添加失败"})
+        return json.dumps({"success":False, "message": "添加失败"})
 
 @admin_user_bp.route("/del_user",methods=['POST'])
 @login_required
@@ -65,12 +65,11 @@ def del_user():
     :return:
     '''
     id = request.form.get("id")
-    print(id)
     try:
         user_manage_service.delete_user(int(id))
         return json.dumps({"success": True, "message": "删除成功"})
     except BaseException:
-        return json.dumps({"error": False, "message": "删除失败"})
+        return json.dumps({"success": False, "message": "删除失败"})
 
 
 @admin_user_bp.route("/update_user",methods=['POST'])
@@ -105,4 +104,4 @@ def update_user():
         user_manage_service.update_user(user_dict)
         return json.dumps({"success":True,"massage":"更新成功"})
     except BaseException:
-        return json.dumps({"error":False,"message" :"更新失败，请稍后重试"})
+        return json.dumps({"success":False,"message" :"更新失败，请稍后重试"})

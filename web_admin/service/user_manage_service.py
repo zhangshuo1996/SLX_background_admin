@@ -16,7 +16,7 @@ def get_user():
     user_list = []
     for i in user:
         try:
-            if 'charge_school' in i:
+            if len(i['charge_school']) > 0:
                 str = i['charge_school'][0]
                 for j in i['charge_school'][1:]:
                     str = str+","+j
@@ -64,5 +64,6 @@ if __name__ == "__main__":
     #测试
 
     # add_user(user)
-    user = {'id': 100006, 'tel_number': '12345678905', 'type': '0', 'name': '李永杰', 'email': 'e@m.com', 'charge_school': ['清华大学']}
-    update_user(user)
+    user = get_user()
+    for i in user:
+        print(i)

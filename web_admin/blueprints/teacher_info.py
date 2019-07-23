@@ -1,10 +1,7 @@
 from flask import Blueprint, render_template, session, request
-import time,datetime
 import json
 
 from web_admin.blueprints.auth import login_required
-from web_admin.utils.mongo_operator import MongoOperator
-from web_admin.config import MongoDB_CONFIG
 from bson.objectid import ObjectId
 from web_admin.service import teacher_info_service
 
@@ -119,3 +116,61 @@ def data_ignore():
         print(e.args)
 
 
+@teacher_info_bp.route('/teacher_search')
+@login_required
+def teacher_search():
+    """
+    跳转到教师搜索页面
+    :return:
+    """
+    try:
+        school = teacher_info_service.get_school()
+        institution = teacher_info_service.get_institution(school[0])
+        institution.append(" ")
+        return render_template("teacher_search.html",school=school,institution=institution)
+    except BaseException:
+        return json.dumps({"success": False, "message": "发生错误，请稍后重试！"})
+
+@teacher_info_bp.route("/get_institution",methods=["POST"])
+@login_required
+def get_institution():
+    """
+    获取所有学校名
+    :return:
+    """
+    school = request.form.get("school")
+    try:
+        institution = teacher_info_service.get_institution(school)
+        return json.dumps({"success": True,"institution":institution})
+    except BaseException:
+        return json.dumps({"success": False, "message": "操作失败"})
+
+@teacher_info_bp.route("/get_teacher_info",methods=["POST"])
+@login_required
+def get_teacher_info():
+    """
+    根据学校名，学院名和教师名获取教师信息
+    :return: teacher_info：教师名、学校名、学院名、头衔、出生年月、邮箱、办公电话、手机号码、教育经历
+    """
+    school = request.form.get("school")
+    institution = request.form.get("institution")
+    teacher = request.form.get("teacher")
+    try:
+        teacher_list = teacher_info_service.get_teacher_info(school,institution,teacher)
+        if teacher_list is not None:
+            teacher_info = {
+                "name": teacher_list['name'],
+                "university": teacher_list['school'],
+                "college": teacher_list['institution'],
+                "title": teacher_list['title'],
+                "birthyear": teacher_list['birth_year'],
+                "email": teacher_list['email'],
+                "tel_num": teacher_list['office_number'],
+                "phone_number": teacher_list['phone_number'],
+                "edu_exp": teacher_list['edu_exp']
+            }
+            return json.dumps({"success": True, "teacher_info": teacher_info})
+        else:
+            return json.dumps({"success": False, "message": "没有此老师的信息"})
+    except BaseException:
+        return json.dumps({"success": False, "message": "没有此老师的信息"})

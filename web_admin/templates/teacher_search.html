@@ -1,0 +1,109 @@
+{% extends 'base.html' %}
+{% block title %}用户管理{% endblock %}
+{% block script %}
+    <script src="https://cdn.staticfile.org/popper.js/1.12.5/umd/popper.min.js"></script>
+    <script src="../static/js/teacher_search.js"></script>
+
+{% endblock %}
+{% block main %}
+        <div class="row tm-content-row tm-mt-big">
+            <div class="user-list-container tm-col tm-col-big">
+                <div class="bg-white tm-block">
+                    <div class="row">
+                        <div class="col-12">
+                            <h2 class="tm-block-title d-inline-block">教师信息</h2>
+                        </div>
+                    </div>
+                    <form>
+                    <table class="table" style="table-layout: fixed;">
+                        <tbody class = "displaying">
+                            <tr>
+                              <th colspan="1" scope="row">教师姓名</th>
+                              <td colspan="4"><input id="name" type="text" style="border: none"></td>
+                            </tr>
+                            <tr>
+                              <th scope="row">学校</th>
+                              <td colspan="4"><input id="university" type="text" style="border: none"></td>
+                            </tr>
+                            <tr>
+                              <th scope="row">学院</th>
+                              <td colspan="4"><input id="college" type="text" style="border: none"></td>
+                            </tr>
+                            <tr>
+                              <th scope="row">职称、头衔</th>
+                              <td colspan="4"><input id="title" type="text" style="border: none"></td>
+                            </tr>
+                            <tr>
+                              <th scope="row">出生年月</th>
+                              <td colspan="4"><input id="birthyear" type="text" style="border: none" ></td>
+                            </tr>
+                            <tr>
+                              <th scope="row">邮箱</th>
+                              <td colspan="4"><input id="email" type="text" style="border: none" ></td>
+                            </tr>
+                              <tr>
+                              <th scope="row">办公电话</th>
+                              <td colspan="4"><input id="tel_num" type="text"  style="border: none"></td>
+                            </tr>
+                            <tr>
+                              <th scope="row">手机号码</th>
+                              <td colspan="4"><input id="mobile_phone" type="text" style="border: none" ></td>
+                            </tr>
+                            <tr>
+                              <th scope="row">教育经历</th>
+                              <td colspan="4"><input id="edu-exp" type="text" style="border: none"></td>
+                            </tr>
+                          </tbody>
+                        </table>
+                        <div style="float:right;margin-bottom:10px" >
+                            <button type="button" class="btn btn-danger">增加</button>
+                            <button type="button" class="btn btn-danger" style="margin-left:15px">删除</button>
+                            <button type="button" class="btn btn-danger" style="margin-left:15px">保存修改</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="tm-col tm-col-big tm-col-big1">
+                <div class="bg-white tm-block">
+                    <div class="row">
+                        <div class="col-12">
+                            <h2 class="tm-block-title">教师搜索</h2>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <form class="tm-signup-form" id="myform">
+                                <div class="form-group">
+                                    <label for="school">学校名</label>
+                                    <select id="school" onchange="get_institution()" class="form-control">
+                                        {% for i in school %}
+                                            <option>{{ i }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="institution">学院名</label>
+                                    <select id="institution" class="form-control">
+                                      {% for i in institution %}
+                                            <option>{{ i }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="teacher">教师名</label>
+                                    <input  id="teacher" name="teacher" type="text" class="form-control validate" required>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12 col-sm-4">
+                                        <button type="button" class="btn btn-primary" onclick="teacher_search()">搜索
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+{% endblock %}
+

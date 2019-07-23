@@ -3,8 +3,10 @@
 by dxy
 for teacher_info db
 """
+
 from web_admin.utils.mongo_operator import MongoOperator
 from web_admin.config import MongoDB_CONFIG
+
 
 def get_modify_info():
     """
@@ -139,3 +141,45 @@ def update_basic_info(teacher_id,obj_id,data):
     except Exception as e:
         print(e.args)
 
+def get_school():
+    """
+    获取数据库中所有学校名
+    :return:
+    """
+
+    mongo_operator = MongoOperator(**MongoDB_CONFIG)
+    school = mongo_operator.get_collection("basic_info")
+    school_list = school.distinct("school")
+    return school_list
+
+def get_institution(school_name):
+    """
+    根据学校名获取这个学校的所有学院名
+    :param school_name: 学校名
+    :return: institution:学院名
+    """
+    mongo_operator = MongoOperator(**MongoDB_CONFIG)
+    school = mongo_operator.get_collection("basic_info")
+    institution = school.distinct("institution",{"school":school_name})
+    return institution
+
+def get_teacher_info(school,institution,teacher):
+    """
+    根据学校名，学院名和教师名获取教师信息
+    :param school:学校名
+    :param institution: 学院名
+    :param teacher: 教师名
+    :return: teacher_dict:教师名、学校名、学院名、头衔、出生年月、邮箱、办公电话、手机号码、教育经历
+    """
+    mongo_operator = MongoOperator(**MongoDB_CONFIG)
+    teacher_list = mongo_operator.get_collection("basic_info")
+    if institution == "":
+        teacher_dict = teacher_list.find_one({"school":school,"institution":institution,"name":teacher})
+    else:
+        teacher_dict = teacher_list.find_one({"school":school,"name":teacher})
+    return teacher_dict
+
+if __name__ == "__main__":
+    #测试
+    r = get_teacher_info("东南大学","软件学院","周德宇")
+    print(r)
