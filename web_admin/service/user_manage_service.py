@@ -73,7 +73,6 @@ def update_user(user_dict):
                                "type": user_dict['type'], "charge_school":user_dict['charge_school']}})
 
 
-
 if __name__ == "__main__":
     #测试
 
