@@ -3,136 +3,133 @@
 
 {% block main %}
 
-    <div class="row tm-content-row tm-mt-big">
-        <div class="col-xl-8 col-lg-8 tm-md-12 tm-sm-12 tm-col">
-            <div class="bg-white tm-block h-100">
-                <div class="row">
-                    <div class="col-md-8 col-sm-12">
-                        <h2 class="tm-block-title d-inline-block type">具体信息</h2>
-                    </div>
-                </div>
-                <form>
-                    <table class="table" style="table-layout: fixed;">
-                      <thead >
-                        <tr>
-                          <th scope="col"></th>
-                          <th scope="col">数据库数据</th>
-                          <th scope="col" >商务提交数据</th>
-                        </tr>
-                      </thead>
-                        <tbody class = "displaying">
-                            <tr>
-                              <th scope="row">姓名</th>
-                              <td></td>
-                              <td></td>
-                            </tr>
-                            <tr>
-                              <th scope="row">出生年份</th>
-                              <td></td>
-                              <td></td>
-                            </tr>
-                            <tr>
-                              <th scope="row">学校、学院、系</th>
-                              <td></td>
-                              <td></td>
-                            </tr>
-                            <tr>
-                              <th scope="row">职称、头衔</th>
-                              <td></td>
-                              <td></td>
-                            </tr>
-                            <tr>
-                              <th scope="row">领域</th>
-                              <td></td>
-                              <td></td>
-                            </tr>
-                            <tr>
-                              <th scope="row">邮箱</th>
-                              <td></td>
-                              <td></td>
-                            </tr>
-                              <tr>
-                              <th scope="row">办公电话</th>
-                              <td></td>
-                              <td></td>
-                            </tr>
-                                <tr>
-                              <th scope="row">手机号码</th>
-                              <td></td>
-                              <td></td>
-                            </tr>
-                                  <tr>
-                              <th scope="row">教育经历</th>
-                              <td ></td>
-                            <td></td>
-                                  </tr>
-                        <tr>
-                            <td style="display: none"></td>
-                            <td style="display: none"></td>
-                            <td style="display: none"></td>
-                            <td style="display: none"></td>
-                            <td style="display: none"></td>
-                            <td style="display: none"></td>
-                            <td style="display: none"></td>
-                        </tr>
-                          </tbody>
-                        </table>
-                        <div style="float:right;margin-bottom:10px" ><button type="button" class="btn btn-primary ignore" >忽略  </button>
-                        <button type="button" class="btn btn-primary preservation" style="margin-left:10px ">保存修改</button>
-                             </div>
-                    </form>
-                    </div>
-                </div>
-
-                <div class="col-xl-4 col-lg-4    tm-md-12 tm-sm-12 tm-col">
-                    <div class="bg-white tm-block h-100">
-                        <h2 class="tm-block-title d-inline-block">
-                            信息列表
-                            &nbsp;
-                        <small class="text-muted" id="total">({{ modify_info|length }})</small>
-                        </h2>
-                            <table class="table table-striped">
-                              <thead>
-                                <tr>
-                                  <th scope="col">商务</th>
-                                  <th scope="col">时间</th>
-                                </tr>
-                              </thead>
-                              <tbody>
-                              {%  for info in modify_info %}
-                              <tr class="display">
-                                  <td>{{ info.username }}</td>
-                                  <td>{{ info.timestamp }}</td>
-                                  <td style="display: none" >{{ info._id }}</td>
-                                  <td style="display: none" >{{ info.name }}</td>
-                                  <td style="display: none">{{ info.school }}</td>
-                                   <td style="display: none">{{ info.institution }}</td>
-                               <td style="display: none">{{ info.title }}</td>
-                               <td style="display: none">{{ info.honor }}</td>
-                               <td style="display: none">{{ info.email }}</td>
-                               <td style="display: none">{{ info.phone_number }}</td>
-                               <td style="display: none">{{ info.office_number }}</td>
-                               <td style="display: none">{{ info.edu_exp }}</td>
-                              <td style="display: none">{{ info.teacher_id }}</td>
-                                  <td style="display: none">{{ info.birth_year }}</td>
-                                <td style="display: none" >{{ info._id }}</td>
-                                <td style="display: none">{{ info.domain }}</td>
-                              <td style="display: none">{{ info.department }}</td>
-                              </tr>
-                              {% endfor %}
-                              </tbody>
-                            </table>
-
-                                </div>
-                                            </div>
-                                        </div>
-
+<div class="row tm-content-row tm-mt-big">
+  <div class="col-xl-8 col-lg-8 tm-md-12 tm-sm-12 tm-col">
+    <div class="bg-white tm-block h-100">
+      <div class="row">
+        <div class="col-md-8 col-sm-12">
+          <h2 class="tm-block-title d-inline-block type">具体信息</h2>
         </div>
+      </div>
+      <form>
+        <table class="table" style="table-layout: fixed;">
+          <thead>
+            <tr>
+              <th scope="col"></th>
+              <th scope="col">数据库数据</th>
+              <th scope="col">商务提交数据</th>
+            </tr>
+          </thead>
+          <tbody class="displaying">
+            <tr>
+              <th scope="row">姓名</th>
+              <td></td>
+              <td></td>
+            </tr>
+            <tr>
+              <th scope="row">出生年份</th>
+              <td></td>
+              <td></td>
+            </tr>
+            <tr>
+              <th scope="row">学校、学院、系</th>
+              <td></td>
+              <td></td>
+            </tr>
+            <tr>
+              <th scope="row">职称、头衔</th>
+              <td></td>
+              <td></td>
+            </tr>
+            <tr>
+              <th scope="row">领域</th>
+              <td></td>
+              <td></td>
+            </tr>
+            <tr>
+              <th scope="row">邮箱</th>
+              <td></td>
+              <td></td>
+            </tr>
+            <tr>
+              <th scope="row">办公电话</th>
+              <td></td>
+              <td></td>
+            </tr>
+            <tr>
+              <th scope="row">手机号码</th>
+              <td></td>
+              <td></td>
+            </tr>
+            <tr>
+              <th scope="row">教育经历</th>
+              <td></td>
+              <td></td>
+            </tr>
+            <tr>
+              <td style="display: none"></td>
+              <td style="display: none"></td>
+              <td style="display: none"></td>
+              <td style="display: none"></td>
+              <td style="display: none"></td>
+              <td style="display: none"></td>
+              <td style="display: none"></td>
+            </tr>
+          </tbody>
+        </table>
+        <div style="float:right;margin-bottom:10px"><button type="button" class="btn btn-primary ignore">忽略 </button>
+          <button type="button" class="btn btn-primary preservation" style="margin-left:10px ">保存修改</button>
+        </div>
+      </form>
     </div>
+  </div>
+
+  <div class="col-xl-4 col-lg-4    tm-md-12 tm-sm-12 tm-col">
+    <div class="bg-white tm-block h-100">
+      <h2 class="tm-block-title d-inline-block">
+        信息列表 <small class="text-muted" id="total">({{ modify_info|length }})</small>
+      </h2>
+      <table id="tips-list" class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">商务</th>
+            <th scope="col">时间</th>
+          </tr>
+        </thead>
+        <tbody>
+          {%  for info in modify_info %}
+            <tr class="display">
+              <td>{{ info.username }}</td>
+              <td>{{ info.timestamp }}</td>
+              <td style="display: none">{{ info._id }}</td>
+              <td style="display: none">{{ info.name }}</td>
+              <td style="display: none">{{ info.school }}</td>
+              <td style="display: none">{{ info.institution }}</td>
+              <td style="display: none">{{ info.title }}</td>
+              <td style="display: none">{{ info.honor }}</td>
+              <td style="display: none">{{ info.email }}</td>
+              <td style="display: none">{{ info.phone_number }}</td>
+              <td style="display: none">{{ info.office_number }}</td>
+              <td style="display: none">{{ info.edu_exp }}</td>
+              <td style="display: none">{{ info.teacher_id }}</td>
+              <td style="display: none">{{ info.birth_year }}</td>
+              <td style="display: none">{{ info._id }}</td>
+              <td style="display: none">{{ info.domain }}</td>
+              <td style="display: none">{{ info.department }}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+
+    </div>
+  </div>
+</div>
+
+</div>
+</div>
 
 {% endblock %}
 
 {% block script %}
-    <script src="../static/js/teacher_info.js"></script>
+<script src="../static/js/teacher_info.js"></script>
 {% endblock %}
-

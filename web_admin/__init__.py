@@ -1,7 +1,7 @@
 import os
-from flask import Flask, render_template, session
+from flask import Flask, render_template
 from web_admin.settings import configuration
-from web_admin.extensions import bootstrap,moment
+from web_admin.extensions import bootstrap, moment
 from web_admin.utils.mongo_operator import MongoOperator
 from web_admin.config import MongoDB_CONFIG
 from web_admin.blueprints.auth import auth_bp

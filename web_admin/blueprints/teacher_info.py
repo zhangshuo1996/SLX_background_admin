@@ -8,6 +8,7 @@ from web_admin.service import teacher_info_service
 #蓝图要注册，在utils/__init__.py中，from web_admin.blueprints.teacher_info import teacher_info_bp，在register_blueprints函数中注册
 teacher_info_bp = Blueprint('teacher_info', __name__)
 
+
 @teacher_info_bp.route('/teacher_info')
 @login_required
 def teacher_info():
@@ -17,7 +18,8 @@ def teacher_info():
     """
     modify_info = teacher_info_service.get_modify_info()
 
-    return render_template('teacher_info.html',modify_info =modify_info)
+    return render_template('teacher_info.html', modify_info=modify_info)
+
 
 @teacher_info_bp.route('/get_info_by_tid',methods=['POST'])
 @login_required
@@ -27,9 +29,10 @@ def get_info_by_tid():
     :return: 该教师再basic_info表中的基本信息
     """
     teacher_id = request.form.get('teacher_id', type=int)
-    #根据id从数据中获取教师信息
+    # 根据id从数据中获取教师信息
     teacher_info_from_db = teacher_info_service.get_info_from_db(teacher_id)
     return json.dumps(teacher_info_from_db,ensure_ascii=False)
+
 
 @teacher_info_bp.route('/data_preservation', methods=['POST'])
 @login_required
@@ -78,28 +81,29 @@ def data_preservation():
         try:
             teacher_info_service.insert_basic_info(data,obj_id)
             return json.dumps({"success": True, "message": "操作成功"})
-        except:
+        except Exception as e:
+            print(e)
             return json.dumps({"success": False, "message": "操作失败"})
     else:
     #处理修改数据
-        data ={'name':request.form.get('name'),
-                'school':request.form.get('school'),
-                'institution':request.form.get('institution'),
-               'department':request.form.get('department'),
-                'birth_year':request.form.get('birth_year'),
-                'title':request.form.get('title'),
-                'honor':honors,
-               'domain':domain,
-                'email':request.form.get('email'),
-                'office_number':request.form.get('office_number'),
-                'phone_number':request.form.get('phone_number'),
-                'edu_exp':request.form.get('edu_exp')}
+        data ={'name': request.form.get('name'),
+                'school': request.form.get('school'),
+                'institution': request.form.get('institution'),
+               'department': request.form.get('department'),
+                'birth_year': request.form.get('birth_year'),
+                'title': request.form.get('title'),
+                'honor': honors,
+               'domain': domain,
+                'email': request.form.get('email'),
+                'office_number': request.form.get('office_number'),
+                'phone_number': request.form.get('phone_number'),
+                'edu_exp': request.form.get('edu_exp')}
         try:
             teacher_info_service.update_basic_info(teacher_id,obj_id,data)
             return json.dumps({"success": True, "message": "操作成功"})
-        except:
+        except Exception as e:
+            print(e)
             return json.dumps({"success": False, "message": "操作失败"})
-
 
 
 @teacher_info_bp.route('/data_ignore', methods=['POST'])
@@ -128,8 +132,10 @@ def teacher_search():
         institution = teacher_info_service.get_institution(school[0])
         institution.append(" ")
         return render_template("teacher_search.html",school=school,institution=institution)
-    except BaseException:
+    except Exception as e:
+        print(e)
         return json.dumps({"success": False, "message": "发生错误，请稍后重试！"})
+
 
 @teacher_info_bp.route("/get_institution",methods=["POST"])
 @login_required
@@ -141,11 +147,13 @@ def get_institution():
     school = request.form.get("school")
     try:
         institution = teacher_info_service.get_institution(school)
-        return json.dumps({"success": True,"institution":institution})
-    except BaseException:
+        return json.dumps({"success": True, "institution": institution})
+    except Exception as e:
+        print(e)
         return json.dumps({"success": False, "message": "操作失败"})
 
-@teacher_info_bp.route("/get_teacher_info",methods=["POST"])
+
+@teacher_info_bp.route("/get_teacher_info", methods=["POST"])
 @login_required
 def get_teacher_info():
     """
@@ -172,5 +180,6 @@ def get_teacher_info():
             return json.dumps({"success": True, "teacher_info": teacher_info})
         else:
             return json.dumps({"success": False, "message": "没有此老师的信息"})
-    except BaseException:
+    except Exception as e:
+        print(e)
         return json.dumps({"success": False, "message": "没有此老师的信息"})

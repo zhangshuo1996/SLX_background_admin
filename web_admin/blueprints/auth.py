@@ -63,6 +63,7 @@ def index():
     else:
         return  render_template("login.html")
 
+
 @auth_bp.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
@@ -105,7 +106,7 @@ def login():
                 info['domain'] = domain_str
             else:
                 info['domain'] = ''
-        return render_template('teacher_info.html',modify_info =modify_info)
+        return render_template('teacher_info.html', modify_info=modify_info)
     else:
         flash('登录失败，请检测账号或者密码后重新输入', 'danger')
         return render_template('login.html')

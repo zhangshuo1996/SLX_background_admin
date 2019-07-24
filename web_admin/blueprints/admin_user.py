@@ -11,14 +11,14 @@ admin_user_bp = Blueprint('admin_user', __name__)
 auth_bp = Blueprint('auth', __name__)
 
 
-
 @admin_user_bp.route('/user_info')
 @login_required
 def user_info():
     user = user_manage_service.get_user()
     return render_template('user_info.html',user=user)
 
-@admin_user_bp.route('/add_user',methods=["POST"])
+
+@admin_user_bp.route('/add_user', methods=["POST"])
 @login_required
 def add_user():
     """
@@ -27,7 +27,7 @@ def add_user():
     """
     date = datetime.utcnow()
     userlist = user_manage_service.get_user()
-    #获取最大id
+    # 获取最大id
     userlist.sort(key=lambda ele: ele[4], reverse=True)
     # 接受数据
     name = request.form.get("name")
@@ -35,44 +35,47 @@ def add_user():
     email = request.form.get("email")
     school = request.form.get("school")
     school_list = school.split(" ")
-    type = request.form.get("type")
-    if type == "高校商务":
+    user_type = request.form.get("type")
+    if user_type == "高校商务":
         user_type = "0"
     else:
         user_type = "1"
     user = {
-        "tel_number" : tel_number,
-        "type" : user_type,
-        "creation_time" : date,
-        "status" : "1",
-        "id" : userlist[0][4]+1,
-        "password" : "3b86247f12fa88a116e8e446614b3eae",
-        "name" : name,
-        "email" : email,
-        "charge_school" : school_list
+        "tel_number": tel_number,
+        "type": user_type,
+        "creation_time": date,
+        "status": "1",
+        "id": userlist[0][4]+1,
+        "password": "3b86247f12fa88a116e8e446614b3eae",
+        "name": name,
+        "email": email,
+        "charge_school": school_list
     }
     try:
         user_manage_service.add_user(user)
         return json.dumps({"success": True, "message": "添加成功"})
-    except BaseException:
-        return json.dumps({"success":False, "message": "添加失败"})
+    except Exception as e:
+        print(e)
+        return json.dumps({"success": False, "message": "添加失败"})
 
-@admin_user_bp.route("/del_user",methods=['POST'])
+
+@admin_user_bp.route("/del_user", methods=['POST'])
 @login_required
 def del_user():
-    '''
+    """
     根据用户id删除数据
     :return:
-    '''
+    """
     id = request.form.get("id")
     try:
         user_manage_service.delete_user(int(id))
         return json.dumps({"success": True, "message": "删除成功"})
-    except BaseException:
+    except Exception as e:
+        print(e)
         return json.dumps({"success": False, "message": "删除失败"})
 
 
-@admin_user_bp.route("/update_user",methods=['POST'])
+@admin_user_bp.route("/update_user", methods=['POST'])
 @login_required
 def update_user():
     """
@@ -85,23 +88,24 @@ def update_user():
     email = request.form.get("email")
     school = request.form.get("school")
     school = school.split(",")
-    type = request.form.get("type")
+    user_type = request.form.get("type")
 
-    if type == "高校商务":
-        type = "0"
+    if user_type == "高校商务":
+        user_type = "0"
     else:
-        type = "1"
+        user_type = "1"
 
     user_dict = {
-        "id" : id,
+        "id": id,
         "tel_number": tel_number,
-        "type": type,
+        "type": user_type,
         "name": name,
         "email": email,
         "charge_school": school
     }
     try:
         user_manage_service.update_user(user_dict)
-        return json.dumps({"success":True,"massage":"更新成功"})
-    except BaseException:
-        return json.dumps({"success":False,"message" :"更新失败，请稍后重试"})
+        return json.dumps({"success": True, "massage": "更新成功"})
+    except Exception as e:
+        print(e)
+        return json.dumps({"success": False, "message": "更新失败，请稍后重试"})
