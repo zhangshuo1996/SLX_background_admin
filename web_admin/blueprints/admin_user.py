@@ -68,11 +68,14 @@ def del_user():
     """
     id = request.form.get("id")
     try:
-        user_manage_service.delete_user(int(id))
-        return json.dumps({"success": True, "message": "删除成功"})
+        back = user_manage_service.delete_user(int(id))
+        if back.modified_count > 0:
+            return json.dumps({"success": True, "message": "删除成功"})
+
+        return json.dumps({"success": False, "message": "删除失败"})
     except Exception as e:
         print(e)
-        return json.dumps({"success": False, "message": "删除失败"})
+        return json.dumps({"success": False, "message": "出现错误"})
 
 
 @admin_user_bp.route("/update_user", methods=['POST'])

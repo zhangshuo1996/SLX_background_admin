@@ -1,5 +1,6 @@
 from web_admin.utils.mongo_operator import MongoOperator
-from web_admin.config import MongoDB_CONFIG
+from web_admin.utils.neo4j_operator import NeoOperator
+from web_admin.config import MongoDB_CONFIG, NEO4J_CONFIG
 
 
 mongo = MongoOperator(**MongoDB_CONFIG)
@@ -27,15 +28,25 @@ def get_user():
             pass
     return user_list
 
+
 def add_user(user_dict):
     """
     将新建用户的信息入库
     :param user_dict:
     :return:
     """
-    mongo_operator = MongoOperator(**MongoDB_CONFIG)
-    user = mongo_operator.get_collection("user")
-    user.insert_one(user_dict)
+    try:
+        mongo_operator = MongoOperator(**MongoDB_CONFIG)
+        user = mongo_operator.get_collection("user")
+        user.insert_one(user_dict)
+
+        # 添加商务数据到图图数据库
+        # return ==> {success: True / False}
+        NeoOperator(**NEO4J_CONFIG).create_agent(user_dict['id'], user_dict['name'], user_dict['type'])
+
+    except Exception:
+        raise Exception
+
 
 def delete_user(user_id):
     """
@@ -43,9 +54,11 @@ def delete_user(user_id):
     :param :user_id:用户id
     :return:
     """
+
     mongo_operator = MongoOperator(**MongoDB_CONFIG)
     user = mongo_operator.get_collection("user")
-    user.update_many({"id":user_id},{"$set":{"status":"0"}})
+    return user.update_one({"id": user_id}, {"$set": {"status": "0"}})
+
 
 def update_user(user_dict):
     """
@@ -55,8 +68,9 @@ def update_user(user_dict):
     """
     mongo_operator = MongoOperator(**MongoDB_CONFIG)
     user = mongo_operator.get_collection("user")
-    user.update_many({"id": user_dict['id']}, {"$set": {"name":user_dict['name'],"tel_number":user_dict['tel_number'],
-                                            "email":user_dict['email'],"type":user_dict['type'],"charge_school":user_dict['charge_school']}})
+    user.update_many({"id": user_dict['id']},
+                     {"$set": {"name": user_dict['name'], "tel_number": user_dict['tel_number'], "email": user_dict['email'],
+                               "type": user_dict['type'], "charge_school":user_dict['charge_school']}})
 
 
 
