@@ -49,7 +49,8 @@ def add_user():
         "password" : "3b86247f12fa88a116e8e446614b3eae",
         "name" : name,
         "email" : email,
-        "charge_school" : school_list
+        "charge_school" : school_list,
+        "related_teacher": []
     }
     try:
         user_manage_service.add_user(user)
