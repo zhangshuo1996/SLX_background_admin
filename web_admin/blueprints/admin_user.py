@@ -41,15 +41,16 @@ def add_user():
     else:
         user_type = "1"
     user = {
-        "tel_number": tel_number,
-        "type": user_type,
-        "creation_time": date,
-        "status": "1",
-        "id": userlist[0][4]+1,
-        "password": "3b86247f12fa88a116e8e446614b3eae",
-        "name": name,
-        "email": email,
-        "charge_school": school_list
+        "tel_number" : tel_number,
+        "type" : user_type,
+        "creation_time" : date,
+        "status" : "1",
+        "id" : userlist[0][4]+1,
+        "password" : "3b86247f12fa88a116e8e446614b3eae",
+        "name" : name,
+        "email" : email,
+        "charge_school" : school_list,
+        "related_teacher": []
     }
     try:
         user_manage_service.add_user(user)

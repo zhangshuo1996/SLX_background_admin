@@ -179,7 +179,43 @@ def get_teacher_info(school,institution,teacher):
         teacher_dict = teacher_list.find_one({"school":school,"name":teacher})
     return teacher_dict
 
+def update_teacher(id,teacher_info):
+    """
+    根据教师id和教师消息更新教师的消息
+    :param id:教师id
+    :param teacher_info:教师消息（教师名，学校，学院，头衔，出生年月，邮箱，办公电话，手机号码，教育经历）
+    :return:
+    """
+    mongo_operator = MongoOperator(**MongoDB_CONFIG)
+    teacher_list = mongo_operator.get_collection("basic_info")
+    teacher_list.update_one({"id":id},{"$set":teacher_info})
+
+def delete_teacher(id):
+    """
+    根据教师id改变教师状态为不可用，增加status为0
+    :param id:教师id
+    :return:
+    """
+    mongo_operator = MongoOperator(**MongoDB_CONFIG)
+    teacher_list = mongo_operator.get_collection("basic_info")
+    teacher_list.update_one({"id":id},{"$set":{"status":0}})
+
+def add_teacher(teacher_info):
+    """
+    增加教师的消息
+    :param teacher_info:（教师名，学校，学院，头衔，出生年月，邮箱，办公电话，手机号码，教育经历）
+    :return:
+    """
+    mongo_operator = MongoOperator(**MongoDB_CONFIG)
+    teacher_list = mongo_operator.get_collection("basic_info")
+    max_id = get_max_teacher_id() + 1
+    teacher_info['id'] = max_id
+    teacher_list.insert_one(teacher_info)
+
+
 if __name__ == "__main__":
     #测试
-    r = get_teacher_info("东南大学","软件学院","周德宇")
-    print(r)
+    teacher_info = {'name': '王冬梅', 'school': '中国农业大学', 'institution': '马克思主义学院', 'title': '教授', 'birth_year': '', 'email': '11@qq.com', 'office_number': ' 1234', 'phone_number': '111', 'edu_exp': '1994-1997 北京大学，获得硕士学位2004—2008 中国农业大学，获得博士学位'}
+
+    update_teacher(73927,teacher_info)
+    # add_teacher(teacher_info)

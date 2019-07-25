@@ -167,19 +167,99 @@ def get_teacher_info():
         teacher_list = teacher_info_service.get_teacher_info(school,institution,teacher)
         if teacher_list is not None:
             teacher_info = {
+                "id": teacher_list['id'],
                 "name": teacher_list['name'],
                 "university": teacher_list['school'],
                 "college": teacher_list['institution'],
                 "title": teacher_list['title'],
-                "birthyear": teacher_list['birth_year'],
+                "birth_year": teacher_list['birth_year'],
                 "email": teacher_list['email'],
-                "tel_num": teacher_list['office_number'],
+                "office_number": teacher_list['office_number'],
                 "phone_number": teacher_list['phone_number'],
                 "edu_exp": teacher_list['edu_exp']
             }
             return json.dumps({"success": True, "teacher_info": teacher_info})
         else:
             return json.dumps({"success": False, "message": "没有此老师的信息"})
-    except Exception as e:
-        print(e)
+    except BaseException:
         return json.dumps({"success": False, "message": "没有此老师的信息"})
+
+@teacher_info_bp.route("/update_teacher",methods=["POST"])
+@login_required
+def update_teacher():
+    """
+    根据教师id更新教师信息
+    :return:
+    """
+    id = int(request.form.get("id"))
+    name = request.form.get("name")
+    school = request.form.get('school')
+    institution = request.form.get('institution')
+    birth_year = request.form.get('birth_year')
+    title = request.form.get('title')
+    email = request.form.get('email')
+    office_number = request.form.get('office_number')
+    phone_number = request.form.get('phone_number')
+    edu_exp = request.form.get('edu_exp')
+    teacher_info = {
+        "name": name,
+        "school": school,
+        "institution":institution,
+        "title": title,
+        "birth_year": birth_year,
+        "email": email,
+        "office_number": office_number,
+        "phone_number": phone_number,
+        "edu_exp": edu_exp
+    }
+    try:
+        teacher_info_service.update_teacher(id,teacher_info)
+        return json.dumps({"success": True, "message": "更新成功!"})
+    except BaseException:
+        return json.dumps({"success": False, "message": "更新失败!"})
+
+@teacher_info_bp.route("/delete_teacher",methods=["POST"])
+@login_required
+def delete_teacher():
+    """
+    根据教师的id将教师的状态的状态改为0
+    :return:
+    """
+    id = int(request.form.get("id"))
+    try:
+        teacher_info_service.delete_teacher(id)
+        return json.dumps({"success":True,"message":"删除成功！"})
+    except:
+        return json.dumps({"success":False,"message":"删除失败！"})
+
+@teacher_info_bp.route("/add_teacher",methods=["POST"])
+@login_required
+def add_teacher():
+    #获取教师的新增信息，插入到数据库
+    name = request.form.get("name")
+    school = request.form.get('school')
+    institution = request.form.get('institution')
+    birth_year = request.form.get('birth_year')
+    title = request.form.get('title')
+    email = request.form.get('email')
+    office_number = request.form.get('office_number')
+    phone_number = request.form.get('phone_number')
+    edu_exp = request.form.get('edu_exp')
+    teacher_info = {
+        "name": name,
+        "school": school,
+        "institution": institution,
+        "title": title,
+        "birth_year": birth_year,
+        "email": email,
+        "office_number": office_number,
+        "phone_number": phone_number,
+        "edu_exp": edu_exp
+    }
+    try:
+        teacher_info_service.add_teacher(teacher_info)
+        return json.dumps({"success":True,"message":"添加成功！"})
+    except BaseException:
+        return json.dumps({"success":False,"message":"添加失败！"})
+
+>>>>>>> temp

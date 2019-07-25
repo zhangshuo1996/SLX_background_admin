@@ -17,6 +17,7 @@
                     <form>
                     <table class="table" style="table-layout: fixed;">
                         <tbody class = "displaying">
+                        <tr class="hidden"><td><input id="id" type="text"></td><tr>
                             <tr>
                               <th colspan="1" scope="row">教师姓名</th>
                               <td colspan="4"><input id="name" type="text" style="border: none"></td>
@@ -35,7 +36,7 @@
                             </tr>
                             <tr>
                               <th scope="row">出生年月</th>
-                              <td colspan="4"><input id="birthyear" type="text" style="border: none" ></td>
+                              <td colspan="4"><input id="birth_year" type="text" style="border: none" ></td>
                             </tr>
                             <tr>
                               <th scope="row">邮箱</th>
@@ -43,22 +44,22 @@
                             </tr>
                               <tr>
                               <th scope="row">办公电话</th>
-                              <td colspan="4"><input id="tel_num" type="text"  style="border: none"></td>
+                              <td colspan="4"><input id="office_number" type="text"  style="border: none"></td>
                             </tr>
                             <tr>
                               <th scope="row">手机号码</th>
-                              <td colspan="4"><input id="mobile_phone" type="text" style="border: none" ></td>
+                              <td colspan="4"><input id="phone_number" type="text" style="border: none" ></td>
                             </tr>
                             <tr>
                               <th scope="row">教育经历</th>
-                              <td colspan="4"><input id="edu-exp" type="text" style="border: none"></td>
+                              <td colspan="4"><input id="edu_exp" type="text" style="border: none;width: 100%"></td>
                             </tr>
                           </tbody>
                         </table>
                         <div style="float:right;margin-bottom:10px" >
-                            <button type="button" class="btn btn-danger">增加</button>
-                            <button type="button" class="btn btn-danger" style="margin-left:15px">删除</button>
-                            <button type="button" class="btn btn-danger" style="margin-left:15px">保存修改</button>
+                            <button type="button" class="btn btn-danger" onclick="add_teacher()">增加</button>
+                            <button type="button" class="btn btn-danger" style="margin-left:15px" onclick="delete_teacher()">删除</button>
+                            <button type="button" class="btn btn-danger" style="margin-left:15px" onclick="update_teacher()">保存修改</button>
                         </div>
                     </form>
                 </div>
