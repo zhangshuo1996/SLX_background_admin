@@ -6,6 +6,19 @@ MongoDB_CONFIG = {
     'password': '111111'
 }
 
+NEO4J_CONFIG = {
+    "host": "106.15.188.196",
+    "port": 7687,
+    "username": "neo4j",
+    "password": "chenmeng"
+}
+
+MAIL_CONFIG = {
+    'server': 'smtp.exmail.qq.com',
+    'username': 'library@cmeng.work',
+    'password': 'CHEN67-e3059fa96886',
+    'sender': '三螺旋',
+}
 
 # 加密密钥: 项目一旦运行，不可修改 ==> 否则会造成老用户密码不匹配
 SECRET_KEY = {
