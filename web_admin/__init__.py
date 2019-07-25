@@ -7,6 +7,7 @@ from web_admin.config import MongoDB_CONFIG
 from web_admin.blueprints.auth import auth_bp
 from web_admin.blueprints.admin_user import admin_user_bp
 from web_admin.blueprints.teacher_info import teacher_info_bp
+from web_admin.blueprints.project_info import project_info_bp
 
 
 def create_app(config_name=None):
@@ -44,6 +45,7 @@ def register_blueprints(app):
     app.register_blueprint(auth_bp)
     app.register_blueprint(admin_user_bp)
     app.register_blueprint(teacher_info_bp)
+    app.register_blueprint(project_info_bp)
 
 
 def register_errors(app):

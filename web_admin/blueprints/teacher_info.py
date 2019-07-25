@@ -261,5 +261,3 @@ def add_teacher():
         return json.dumps({"success":True,"message":"添加成功！"})
     except BaseException:
         return json.dumps({"success":False,"message":"添加失败！"})
-
->>>>>>> temp
