@@ -5,6 +5,6 @@
 __pycache__/
 
 
-config.py
+../web_admin/config.py
 ../venv_admin
 .vscode/
