@@ -24,27 +24,29 @@ def get_modify_info():
     for info in modify_info:
         info['timestamp'] = info['timestamp'].strftime("%Y-%m-%d")
         # 将honor转为字符串，便于前台js处理
-        if info['honor'] != [] and info['honor'] != None:
-            honors_str = ''
-            for honor in info['honor']:
-                if honors_str != '':
-                    honors_str += (' ' + honor)
-                else:
-                    honors_str += honor
-            info['honor'] = honors_str
-        else:
-            info['honor'] = ''
-        # 将domain转为字符串，便于前台js处理
-        if info['domain'] != [] and info['domain'] != None:
-            domain_str = ''
-            for domain in info['domain']:
-                if domain_str != '':
-                    domain_str += (' ' + domain)
-                else:
-                    domain_str += domain
-            info['domain'] = domain_str
-        else:
-            info['domain'] = ''
+        if 'honor' in info:
+            if info['honor'] != [] and info['honor'] != None:
+                honors_str = ''
+                for honor in info['honor']:
+                    if honors_str != '':
+                        honors_str += (' ' + honor)
+                    else:
+                        honors_str += honor
+                info['honor'] = honors_str
+            else:
+                info['honor'] = ''
+            # 将domain转为字符串，便于前台js处理
+        if 'domain' in info:
+            if info['domain'] != [] and info['domain'] != None:
+                domain_str = ''
+                for domain in info['domain']:
+                    if domain_str != '':
+                        domain_str += (' ' + domain)
+                    else:
+                        domain_str += domain
+                info['domain'] = domain_str
+            else:
+                info['domain'] = ''
     return modify_info
 
 def get_info_from_db(teacher_id):
