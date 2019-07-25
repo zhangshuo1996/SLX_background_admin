@@ -100,7 +100,7 @@
                               </thead>
                               <tbody>
                               {%  for info in modify_info %}
-                              <tr class="display">
+                              <tr class="display" data-id="{{ info._id }}" data-school="{{ info.school }}">
                                   <td>{{ info.username }}</td>
                                   <td>{{ info.timestamp }}</td>
                                   <td style="display: none" >{{ info._id }}</td>

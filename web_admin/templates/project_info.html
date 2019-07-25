@@ -13,32 +13,28 @@
                 </div>
                 <form>
                     <table class="table" style="table-layout: fixed;">
-                        <tbody class = "displaying">
-                            <tr>
-                              <th colspan="1" scope="row">项目编号</th>
-                              <td colspan="4">001</td>
-                            </tr>
+                        <tbody class = "displaying" data-members="" data-start_time="" data-end_time="" data-_id="">
                             <tr>
                               <th scope="row">项目名称</th>
-                              <td colspan="4">肥料氮素迁移转化过程与损失阻控机制</td>
+                              <td colspan="4"></td>
                             </tr>
                             <tr>
                               <th scope="row">项目类型</th>
-                              <td colspan="4">重点研发计划</td>
+                              <td colspan="4"></td>
                             </tr>
                             <tr>
                               <th scope="row">项目资金</th>
-                              <td colspan="4">5500万元</td>
+                              <td colspan="4"></td>
                             </tr>
                             <tr>
                               <th scope="row">起止时间</th>
-                              <td colspan="4">2017-01-22-2019-01-22</td>
+                              <td colspan="4"></td>
                             </tr>
                             <tr>
                               <th scope="row">项目负责人</th>
-                              <td colspan="4">颜晓元</td>
+                              <td colspan="4"></td>
                             </tr>
-                              <tr>
+                            <tr>
                               <th scope="row">其他成员</th>
                               <td colspan="4"></td>
                             </tr>
@@ -48,7 +44,7 @@
                             </tr>
                             <tr>
                               <th scope="row">项目简介</th>
-                              <td colspan="4">化学肥料和农药减施增效综合技术研发</td>
+                              <td colspan="4"></td>
                             </tr>
                           </tbody>
                         </table>
@@ -62,42 +58,38 @@
                 <div class="col-xl-4 col-lg-4    tm-md-12 tm-sm-12 tm-col">
                     <div class="bg-white tm-block h-100">
                         <h2 class="tm-block-title d-inline-block">
-                            信息列表
-                            &nbsp;
-                        <small class="text-muted" id="total">({{ modify_info|length }})</small>
+                            信息列表 <small class="text-muted" id="total">({{ project_info|length }})</small>
                         </h2>
-                            <table class="table table-striped">
-                              <thead>
-                                <tr>
-                                  <th scope="col">商务</th>
-                                  <th scope="col">时间</th>
-                                </tr>
-                              </thead>
-                              <tbody>
-                              <tr>
-                                  <td>杨秀宁</td>
-                                  <td>2019-07-22</td>
+                        <table class="table table-striped">
+                          <thead>
+                            <tr>
+                              <th scope="col">商务</th>
+                              <th scope="col">时间</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                          {%  for info in project_info %}
+                              <tr class="display" data-id="{{ info._id }}" data-name = "{{ info.name }}" data-project_type = "{{ info.project_type }}"
+                              data-fund = "{{ info.fund }}" data-start_time = "{{ info.start_time }}" data-end_time = "{{ info.end_time }}"
+                              data-members = "{{ info.members }}" data-company = "{{ info.company }}" data-content = "{{ info.content }}"
+                              >
+                            <td>{{ info.username }}</td>
+                            <td>{{ info.timestamp }}</td>
                               </tr>
-                              <tr>
-                                  <td>杨秀宁</td>
-                                  <td>2019-07-22</td>
-                              </tr>
-                              {%  for info in modify_info %}
+                          {% endfor %}
+                          </tbody>
+                        </table>
 
-                              {% endfor %}
-                              </tbody>
-                            </table>
-
-                                </div>
-                                            </div>
-                                        </div>
+                        </div>
+                    </div>
+                </div>
 
         </div>
     </div>
 
 {% endblock %}
 
-{#{% block script %}#}
-{#    <script src="../static/js/teacher_info.js"></script>#}
-{#{% endblock %}#}
+{% block script %}
+    <script src="../static/js/project_info.js"></script>
+{% endblock %}
 

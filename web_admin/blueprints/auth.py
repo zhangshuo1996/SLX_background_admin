@@ -118,7 +118,3 @@ def logout():
     return render_template("login.html")
 
 
-@auth_bp.route('/project_info')
-@login_required
-def project_info():
-    return render_template("project_info.html")

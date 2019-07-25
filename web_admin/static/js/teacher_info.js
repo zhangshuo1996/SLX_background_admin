@@ -32,9 +32,8 @@ $(".display").on("click",(e)=>{
     let object_id = e.children()[14].textContent;
     let domain = e.children()[15].textContent;
     let department = e.children()[16].textContent;
+
     //将取出的信息填充到左边table的第三列，所以从thd[2]开始,逐个加3，就都是修改第三列
-
-
     thd[2].textContent = name;
     if(birth_year=="None") {
         thd[5].textContent = "";
