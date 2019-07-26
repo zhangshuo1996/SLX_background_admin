@@ -136,7 +136,7 @@ function toggle_alert(isSuccess, modal, message = ""){
             alert_success.find('.alert-message').text(message);
         }
 
-        alert_success.show(2000);
+        alert_success.show(1000);
         setTimeout(()=>{
             alert_success.hide(2000);
         }, 2000)
@@ -147,7 +147,7 @@ function toggle_alert(isSuccess, modal, message = ""){
             alert_error.find('.alert-message').text(message);
         }
 
-        alert_error.show(2000);
+        alert_error.show(1000);
         setTimeout(()=>{
             alert_error.hide(2000);
         },2000);
