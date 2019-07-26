@@ -118,7 +118,6 @@ function update_user() {
     data: data,
     dataType: "json",
     success: function (response) {
-        console.log(response);
         toggle_alert(response.success, "", response.message);
          $("#name").val("");
          $("#tel_number").val("");
@@ -126,7 +125,6 @@ function update_user() {
          $("#school").val("");
     },
     error: function(response){
-        console.log(response);
         toggle_alert(response.success, "", response.message);
     }
 });

@@ -43,6 +43,8 @@
                                 <td>{{ i[3] }}</td>
                                   {% if i[5] == "0" %}
                                     <td>{{ "高校商务" }}</td>
+                                  {% elif i[5] == "1" %}
+                                    <td>{{ "企业商务" }}</td>
                                   {% else %}
                                     <td>{{ "政府商务" }}</td>
                                   {% endif %}
@@ -85,6 +87,7 @@
                                     <label for="type">用户类型</label>
                                     <select id="type" class="form-control">
                                       <option>高校商务</option>
+                                      <option>企业商务</option>
                                       <option>政府商务</option>
                                     </select>
                                 </div>
