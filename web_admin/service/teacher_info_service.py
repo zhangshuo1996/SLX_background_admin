@@ -58,14 +58,18 @@ def get_info_from_db(teacher_id):
     collection = mogo_operator.get_collection('basic_info')
     teacher_info_from_db = collection.find_one({"id": teacher_id},
                                                {'_id': 0, 'funds_id': 0, 'patent_id': 0, 'paper_id': 0})
-    if teacher_info_from_db['honor'] != [] and teacher_info_from_db['honor'] != None:
-        honors_str = ''
-        for honor in teacher_info_from_db['honor']:
-            if honors_str != '':
-                honors_str += (' ' + honor)
-            else:
-                honors_str += honor
-        teacher_info_from_db['honor'] = honors_str
+    print(teacher_info_from_db)
+    if 'honor' in teacher_info_from_db:
+        if teacher_info_from_db['honor'] != [] and teacher_info_from_db['honor'] != None:
+            honors_str = ''
+            for honor_dic in teacher_info_from_db['honor']:
+                if honors_str != '':
+                    honors_str += (' ' + honor_dic['type'])
+                else:
+                    honors_str += honor_dic['type']
+            teacher_info_from_db['honor'] = honors_str
+    else:
+        teacher_info_from_db['honor'] = ''
     if 'domain' in teacher_info_from_db:
         if teacher_info_from_db['domain'] != [] and teacher_info_from_db['domain'] != None:
             domain_str = ''

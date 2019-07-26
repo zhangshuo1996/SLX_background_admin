@@ -17,25 +17,23 @@ $(".display").on("click",(e)=>{
         }
     // $(thd[i+1]).css("color","red");
     //将选中的这一行的数据，即商务提交的教师信息取出来
-    let id = e.children()[2].textContent;
-    let name = e.children()[3].textContent;
-    let school = e.children()[4].textContent;
-    let institution = e.children()[5].textContent;
-    let title = e.children()[6].textContent;
-    let honor = e.children()[7].textContent;
-    let email = e.children()[8].textContent;
-    let phone_number = e.children()[9].textContent;
-    let office_number = e.children()[10].textContent;
-    let edu_exp = e.children()[11].textContent;
-    let teacher_id = e.children()[12].textContent;
-    let birth_year = e.children()[13].textContent;
-    let object_id = e.children()[14].textContent;
-    let domain = e.children()[15].textContent;
-    let department = e.children()[16].textContent;
-
+    let name = e.attr('data-name');
+    let school = e.attr('data-school');
+    let institution = e.attr('data-institution');
+    let title = e.attr('data-title');
+    let honor = e.attr('data-honor');
+    let email = e.attr('data-email');
+    let phone_number = e.attr('data-phone_number');
+    let office_number = e.attr('data-office_number');
+    let edu_exp = e.attr('data-edu_exp');
+    let teacher_id = e.attr('data-teacher_id');
+    let birth_year = e.attr('data-birth_year');
+    let object_id = e.attr('data-_id');
+    let domain = e.attr("data-domain");
+    let department = e.attr("data-department");
     //将取出的信息填充到左边table的第三列，所以从thd[2]开始,逐个加3，就都是修改第三列
     thd[2].textContent = name;
-    if(birth_year=="None") {
+    if(birth_year==="None") {
         thd[5].textContent = "";
     }
     else thd[5].textContent = birth_year;
@@ -45,20 +43,24 @@ $(".display").on("click",(e)=>{
     thd[17].textContent = email;
     thd[20].textContent = office_number;
     thd[23].textContent = phone_number;
-    thd[26].textContent = edu_exp;
-    //隐藏数据，用于提交给数据库
-    thd[27].textContent = school;
-    thd[28].textContent= institution;
-    thd[29].textContent= title;
-    thd[30].textContent = honor;
-    thd[31].textContent = teacher_id;
-    thd[32].textContent = object_id;
-    thd[33].textContent  = department;
-    if(teacher_id != "None") {
+    if(edu_exp==="None") {
+        thd[26].textContent = "";
+    }
+    else thd[26].textContent = edu_exp;
+    //隐藏数据，用于点击保存时提交给后台
+    tbody.attr("data-school",school);
+    tbody.attr("data-institution",institution);
+    tbody.attr("data-title",title);
+    tbody.attr("data-honor",honor);
+    tbody.attr("data-teacher_id",teacher_id);
+    tbody.attr("data-object_id",object_id);
+    tbody.attr("data-department",department);
+    if(teacher_id !== "None") {
         let type = $(".type");
         type.text("具体信息（修改信息）");
         //从数据库中将这个老师的数据取出来
         let data = {"teacher_id": teacher_id};
+        console.log(data);
         $.ajax({
             type: "post",
             url: "/get_info_by_tid",
@@ -77,7 +79,7 @@ $(".display").on("click",(e)=>{
                 thd[25].textContent = response["edu_exp"];
                 for (var i=1; i<=25; i += 3)
                 {
-                    if(thd[i].textContent != thd[i+1].textContent){
+                    if(thd[i].textContent !== thd[i+1].textContent){
                         $(thd[i+1]).css("color","red");
                     }
                 }

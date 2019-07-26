@@ -12,7 +12,8 @@
                     </div>
                 </div>
                 <form>
-                    <table class="table" style="table-layout: fixed;">
+                    <table class="table" style="table-layout: fixed;" data-school="" data-institution="" data-title="" data-honor=""
+                    data-teacher_id="" data-object_id="" data-department="">
                       <thead >
                         <tr>
                           <th scope="col"></th>
@@ -100,24 +101,15 @@
                               </thead>
                               <tbody>
                               {%  for info in modify_info %}
-                              <tr class="display" data-id="{{ info._id }}" data-school="{{ info.school }}">
+                              <tr class="display" data-id="{{ info._id }}" data-school="{{ info.school }}" data-name="{{ info.name }}"
+                                  data-institution="{{ info.institution}}" data-title="{{ info.title }}" data-honor="{{ info.honor }}"
+                              data-email = "{{ info.email }}" data-phone_number="{{ info.phone_number }}" data-office_number="{{ info.office_number }}"
+                              data-edu_exp="{{ info.edu_exp }}" data-teacher_id="{{ info.teacher_id }}" data-birth_year="{{ info.birth_year }}"
+                              data-_id="{{ info._id }}" data-domain="{{ info.domain }}" data-department="{{ info.department }}">
+
                                   <td>{{ info.username }}</td>
                                   <td>{{ info.timestamp }}</td>
-                                  <td style="display: none" >{{ info._id }}</td>
-                                  <td style="display: none" >{{ info.name }}</td>
-                                  <td style="display: none">{{ info.school }}</td>
-                                   <td style="display: none">{{ info.institution }}</td>
-                               <td style="display: none">{{ info.title }}</td>
-                               <td style="display: none">{{ info.honor }}</td>
-                               <td style="display: none">{{ info.email }}</td>
-                               <td style="display: none">{{ info.phone_number }}</td>
-                               <td style="display: none">{{ info.office_number }}</td>
-                               <td style="display: none">{{ info.edu_exp }}</td>
-                              <td style="display: none">{{ info.teacher_id }}</td>
-                                  <td style="display: none">{{ info.birth_year }}</td>
-                                <td style="display: none" >{{ info._id }}</td>
-                                <td style="display: none">{{ info.domain }}</td>
-                              <td style="display: none">{{ info.department }}</td>
+
                               </tr>
                               {% endfor %}
                               </tbody>
