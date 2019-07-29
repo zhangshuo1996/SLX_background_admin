@@ -31,16 +31,16 @@ def project_data_preservation():
     members_str = request.form.get('members')
     members = eval(members_str)
     #将起始时间转为datatime格式
-    start_time = datetime.datetime.strptime(request.form.get('start_time'), '%Y-%m-%d')
-    end_time = datetime.datetime.strptime(request.form.get('end_time'), '%Y-%m-%d')
+    # start_time = datetime.datetime.strptime(request.form.get('start_time'), '%Y-%m-%d')
+    # end_time = datetime.datetime.strptime(request.form.get('end_time'), '%Y-%m-%d')
     #将 万元去掉，并转换为浮点型
     fund = float(request.form.get('fund').split()[0])
     data = {
         'name':request.form.get('name'),
         'project_type':request.form.get('project_type'),
         'fund':fund,
-        'start_time':start_time,
-        'end_time':end_time,
+        'start_time':request.form.get('start_time'),
+        'end_time':request.form.get('end_time'),
         'members':members,
         'company':request.form.get('company'),
         'content':request.form.get('content')
