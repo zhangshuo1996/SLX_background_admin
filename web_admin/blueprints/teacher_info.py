@@ -30,8 +30,9 @@ def get_info_by_tid():
     """
     teacher_id = request.form.get('teacher_id', type=int)
     # 根据id从数据中获取教师信息
-    teacher_info_from_db = teacher_info_service.get_info_from_db(teacher_id)
-    return json.dumps(teacher_info_from_db,ensure_ascii=False)
+    _id = ObjectId(request.form.get('_id'))
+    teacher_info_from_db = teacher_info_service.get_info_from_db(teacher_id,_id)
+    return json.dumps(teacher_info_from_db)
 
 
 @teacher_info_bp.route('/data_preservation', methods=['POST'])
@@ -42,12 +43,7 @@ def data_preservation():
     :return:
     """
     teacher_id = request.form.get('teacher_id')
-    # 从前端得到的数据中得到的honor和domain从字符串转化为list
-    honor_str= request.form.get('honor')
-    if honor_str != '' and honor_str != None:
-        honors = honor_str.split(' ')
-    else:
-        honors = []
+    # 从前端得到的数据中得到的domain从字符串转化为list
     domain_str = request.form.get('domain')
     if domain_str != ''and domain_str != None:
         domain = domain_str.split(' ')
@@ -59,23 +55,27 @@ def data_preservation():
     #处理新增数据
         data = {
             'name': request.form.get('name'),
+            'gender':request.form.get('gender'),
             'school': request.form.get('school'),
             'institution': request.form.get('institution'),
             'department': request.form.get('department'),
             'birth_year': request.form.get('birth_year'),
             'title': request.form.get('title'),
-            'honor': honors,
             'domain': domain,
             'email': request.form.get('email'),
             'office_number': request.form.get('office_number'),
             'phone_number': request.form.get('phone_number'),
             'edu_exp': request.form.get('edu_exp'),
+            'work_exp':request.form.get('work_exp'),
             'id': teacher_id,
-            'position': '',
+            'position': request.form.get('position'),
             'patrnt_id': [],
             'funds_id': [],
-            'paper_id': []
+            'paper_id': [],
+            'honor_title':[],
+            'award_id':[]
         }
+
         max_id = teacher_info_service.get_max_teacher_id()
         data['id'] = max_id+1
         try:
@@ -87,17 +87,20 @@ def data_preservation():
     else:
     #处理修改数据
         data ={'name': request.form.get('name'),
+               'gender':request.form.get('gender'),
                 'school': request.form.get('school'),
                 'institution': request.form.get('institution'),
                'department': request.form.get('department'),
                 'birth_year': request.form.get('birth_year'),
                 'title': request.form.get('title'),
-                'honor': honors,
+               'position':request.form.get('position'),
                'domain': domain,
                 'email': request.form.get('email'),
                 'office_number': request.form.get('office_number'),
                 'phone_number': request.form.get('phone_number'),
-                'edu_exp': request.form.get('edu_exp')}
+                'edu_exp': request.form.get('edu_exp'),
+               'work_exp':request.form.get('work_exp')
+               }
         try:
             teacher_info_service.update_basic_info(teacher_id,obj_id,data)
             return json.dumps({"success": True, "message": "操作成功"})

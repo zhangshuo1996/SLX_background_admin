@@ -28,6 +28,11 @@
                               <td></td>
                             </tr>
                             <tr>
+                              <th scope="row">性别</th>
+                              <td></td>
+                              <td></td>
+                            </tr>
+                            <tr>
                               <th scope="row">出生年份</th>
                               <td></td>
                               <td></td>
@@ -38,7 +43,12 @@
                               <td></td>
                             </tr>
                             <tr>
-                              <th scope="row">职称、头衔</th>
+                              <th scope="row">职称</th>
+                              <td></td>
+                              <td></td>
+                            </tr>
+                            <tr>
+                              <th scope="row">行政职务</th>
                               <td></td>
                               <td></td>
                             </tr>
@@ -67,15 +77,11 @@
                               <td ></td>
                             <td></td>
                                   </tr>
-                        <tr>
-                            <td style="display: none"></td>
-                            <td style="display: none"></td>
-                            <td style="display: none"></td>
-                            <td style="display: none"></td>
-                            <td style="display: none"></td>
-                            <td style="display: none"></td>
-                            <td style="display: none"></td>
-                        </tr>
+                            <tr>
+                              <th scope="row">工作经历</th>
+                              <td ></td>
+                            <td></td>
+                            </tr>
                           </tbody>
                         </table>
                         <div style="float:right;margin-bottom:10px" ><button type="button" class="btn btn-primary ignore" >忽略  </button>
@@ -105,7 +111,8 @@
                                   data-institution="{{ info.institution}}" data-title="{{ info.title }}" data-honor="{{ info.honor }}"
                               data-email = "{{ info.email }}" data-phone_number="{{ info.phone_number }}" data-office_number="{{ info.office_number }}"
                               data-edu_exp="{{ info.edu_exp }}" data-teacher_id="{{ info.teacher_id }}" data-birth_year="{{ info.birth_year }}"
-                              data-_id="{{ info._id }}" data-domain="{{ info.domain }}" data-department="{{ info.department }}">
+                              data-_id="{{ info._id }}" data-domain="{{ info.domain }}" data-department="{{ info.department }}" data-gender="{{ info.gender }}"
+                              data-position="{{ info.position }}" data-work_exp="{{ info.work_exp }}">
 
                                   <td>{{ info.username }}</td>
                                   <td>{{ info.timestamp }}</td>

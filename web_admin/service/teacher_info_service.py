@@ -23,66 +23,21 @@ def get_modify_info():
     # 处理数据
     for info in modify_info:
         info['timestamp'] = info['timestamp'].strftime("%Y-%m-%d")
-        # 将honor转为字符串，便于前台js处理
-        if 'honor' in info:
-            if info['honor'] != [] and info['honor'] != None:
-                honors_str = ''
-                for honor in info['honor']:
-                    if honors_str != '':
-                        honors_str += (' ' + honor)
-                    else:
-                        honors_str += honor
-                info['honor'] = honors_str
-            else:
-                info['honor'] = ''
-            # 将domain转为字符串，便于前台js处理
-        if 'domain' in info:
-            if info['domain'] != [] and info['domain'] != None:
-                domain_str = ''
-                for domain in info['domain']:
-                    if domain_str != '':
-                        domain_str += (' ' + domain)
-                    else:
-                        domain_str += domain
-                info['domain'] = domain_str
-            else:
-                info['domain'] = ''
+        data_pretreate(info)
     return modify_info
 
-def get_info_from_db(teacher_id):
+def get_info_from_db(teacher_id,_id):
     """
     将处理中的教师的信息从basic_info表中取出，以便于和商务提交的修改信息做对比
     :return: 该教师再basic_info表中的基本信息
     """
     mogo_operator = MongoOperator(**MongoDB_CONFIG)
     collection = mogo_operator.get_collection('basic_info')
-    teacher_info_from_db = collection.find_one({"id": teacher_id},
+    teacher_info_from_basic = collection.find_one({"id": teacher_id},
                                                {'_id': 0, 'funds_id': 0, 'patent_id': 0, 'paper_id': 0})
-    print(teacher_info_from_db)
-    if 'honor' in teacher_info_from_db:
-        if teacher_info_from_db['honor'] != [] and teacher_info_from_db['honor'] != None:
-            honors_str = ''
-            for honor_dic in teacher_info_from_db['honor']:
-                if honors_str != '':
-                    honors_str += (' ' + honor_dic['type'])
-                else:
-                    honors_str += honor_dic['type']
-            teacher_info_from_db['honor'] = honors_str
-    else:
-        teacher_info_from_db['honor'] = ''
-    if 'domain' in teacher_info_from_db:
-        if teacher_info_from_db['domain'] != [] and teacher_info_from_db['domain'] != None:
-            domain_str = ''
-            for domain in teacher_info_from_db['domain']:
-                if domain_str != '':
-                    domain_str += (' ' + domain)
-                else:
-                    domain_str += domain
-            teacher_info_from_db['domain'] = domain_str
-    else:
-        teacher_info_from_db['domain'] = ''
-    if 'department' not in teacher_info_from_db:
-        teacher_info_from_db['department'] = ''
+    agent_feedback = mogo_operator.get_collection('agent_feedback')
+    teacher_info_from_feedback = agent_feedback.find_one({"_id":_id},)
+    teacher_info_from_db = data_treate(teacher_info_from_basic,teacher_info_from_feedback)
     return teacher_info_from_db
 
 def get_max_teacher_id():
@@ -131,17 +86,20 @@ def update_basic_info(teacher_id,obj_id,data):
     try:
         agent_feedback_collection= mogo_operator.get_collection('agent_feedback')
         collection.update_one({'id': int(teacher_id)}, {'$set': {'name': data.get('name'),
+                                                                 'gender':data.get('gender'),
                                                                       'school': data.get('school'),
                                                                       'institution': data.get('institution'),
                                                                         'department':data.get('department'),
                                                                       'birth_year': data.get('birth_year'),
                                                                       'title': data.get('title'),
-                                                                      'honor': data.get('honor'),
-                                                                      'domain': data.get('domian'),
+                                                                      'position':data.get('position'),
+                                                                      'domain': data.get('domain'),
                                                                       'email': data.get('email'),
                                                                       'office_number': data.get('office_number'),
                                                                       'phone_number': data.get('phone_number'),
-                                                                      'edu_exp': data.get('edu_exp')}})
+                                                                      'edu_exp': data.get('edu_exp'),
+                                                                        'work_exp':data.get('work_exp')
+                                                                        }})
         # 将商务反馈的记录标注为已处理
         agent_feedback_collection.update_one({'_id': obj_id}, {'$set': {'status': 0}})
     except Exception as e:
@@ -217,6 +175,56 @@ def add_teacher(teacher_info):
     max_id = get_max_teacher_id() + 1
     teacher_info['id'] = max_id
     teacher_list.insert_one(teacher_info)
+
+def data_pretreate(info):
+    """
+    预先处理从数据库取出的信息，由于多个函数用到，所以定义一个函数，以便调用和修改
+    :param teacer_info_from_db:
+    """
+    #honor已改变，之后再处理
+    if 'timestamp' in info:
+        info['timestamp'] = str(info['timestamp'])
+    if '_id' in info:
+        info['_id'] = str(info['_id'])
+    if 'domain' in info:
+        if info['domain'] != [] and info['domain'] != None:
+            domain_str = ''
+            for domain in info['domain']:
+                if domain_str != '':
+                    domain_str += (' ' + domain)
+                else:
+                    domain_str += domain
+            info['domain'] = domain_str
+    else:
+        info['domain'] = ''
+    if 'department' in info:
+        if info['department'] == None:
+            info['department'] = ''
+    else:
+        department_dic = {'department':''}
+        info.update(department_dic)
+    print(info)
+
+
+def data_treate(teacher_info_from_basic,teacher_info_from_feedback):
+    """
+    将agent_feedback中的数据和basic_info中的数据做对比，将teacher_info_from_db中有的字段而teacher_info_from_feedback中没有的字段添加到teacher_info_from_feeedback中
+    以区分到底是它发来的数据中没有这个字段，还是这个字段为空。
+    :return:
+    """
+    for key in teacher_info_from_basic:
+        if key not in teacher_info_from_feedback:
+            teacher_info_from_feedback[key] = teacher_info_from_basic[key]
+    #将从数据库中取出的数据处理一下，便于展示
+    data_pretreate(teacher_info_from_basic)
+    data_pretreate(teacher_info_from_feedback)
+    teacher_data = {
+        'teacher_info_from_feedback':teacher_info_from_feedback,
+        'teacher_info_from_basic':teacher_info_from_basic
+    }
+    return  teacher_data
+
+
 
 
 if __name__ == "__main__":
