@@ -50,6 +50,13 @@ def data_preservation():
     else:
         #防止domain出现['']的情况
         domain = []
+    honor_str = request.form.get('honor_str')
+    honor_title = []
+    if honor_str != '' and honor_str !=  None:
+        honor_list = honor_str.split(',')
+        for honor_dic_str in honor_list:
+            honor_dic_list = honor_dic_str.split(' ')
+            honor_title.append({'type':honor_dic_list[1],'year':honor_dic_list[0]})
     obj_id = ObjectId(request.form.get('object_id'))
     if teacher_id == "None" or teacher_id == None or teacher_id == '':
     #处理新增数据
@@ -61,6 +68,7 @@ def data_preservation():
             'department': request.form.get('department'),
             'birth_year': request.form.get('birth_year'),
             'title': request.form.get('title'),
+            'honor_title':honor_title,
             'domain': domain,
             'email': request.form.get('email'),
             'office_number': request.form.get('office_number'),
@@ -72,7 +80,6 @@ def data_preservation():
             'patrnt_id': [],
             'funds_id': [],
             'paper_id': [],
-            'honor_title':[],
             'award_id':[]
         }
 
@@ -94,6 +101,7 @@ def data_preservation():
                 'birth_year': request.form.get('birth_year'),
                 'title': request.form.get('title'),
                'position':request.form.get('position'),
+               'honor_title': honor_title,
                'domain': domain,
                 'email': request.form.get('email'),
                 'office_number': request.form.get('office_number'),

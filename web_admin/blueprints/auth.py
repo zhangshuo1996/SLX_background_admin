@@ -39,6 +39,12 @@ def index():
         for info in modify_info:
             info['timestamp'] = info['timestamp'].strftime("%Y-%m-%d")
             # 将honor转为字符串，便于前台js处理
+            if 'honor_title' in info:
+                honor_title_list = []
+                if info['honor_title'] != []:
+                    for title in info['honor_title']:
+                        honor_title_list.append({'type': title, 'year': ''})
+                info['honor_title'] = honor_title_list
             data_pretreate(info)
         return render_template('teacher_info.html',modify_info =modify_info)
     else:

@@ -34,7 +34,7 @@ def get_info_from_db(teacher_id,_id):
     mogo_operator = MongoOperator(**MongoDB_CONFIG)
     collection = mogo_operator.get_collection('basic_info')
     teacher_info_from_basic = collection.find_one({"id": teacher_id},
-                                               {'_id': 0, 'funds_id': 0, 'patent_id': 0, 'paper_id': 0})
+                                               {'_id': 0, 'funds_id': 0, 'patent_id': 0, 'paper_id': 0,'award_id':0,'research_plan_id':0})
     agent_feedback = mogo_operator.get_collection('agent_feedback')
     teacher_info_from_feedback = agent_feedback.find_one({"_id":_id},)
     teacher_info_from_db = data_treate(teacher_info_from_basic,teacher_info_from_feedback)
@@ -94,6 +94,7 @@ def update_basic_info(teacher_id,obj_id,data):
                                                                       'title': data.get('title'),
                                                                       'position':data.get('position'),
                                                                       'domain': data.get('domain'),
+                                                                      'honor_title':data.get('honor_title'),
                                                                       'email': data.get('email'),
                                                                       'office_number': data.get('office_number'),
                                                                       'phone_number': data.get('phone_number'),
@@ -181,11 +182,11 @@ def data_pretreate(info):
     预先处理从数据库取出的信息，由于多个函数用到，所以定义一个函数，以便调用和修改
     :param teacer_info_from_db:
     """
-    #honor已改变，之后再处理
     if 'timestamp' in info:
         info['timestamp'] = str(info['timestamp'])
     if '_id' in info:
         info['_id'] = str(info['_id'])
+    #将domain和honor转为字符串，便于前端展示
     if 'domain' in info:
         if info['domain'] != [] and info['domain'] != None:
             domain_str = ''
@@ -197,13 +198,30 @@ def data_pretreate(info):
             info['domain'] = domain_str
     else:
         info['domain'] = ''
+
+    if 'honor_title' in info:
+        honor_title_str = ''
+        if info['honor_title'] == []:
+            info['honor_title'] = honor_title_str
+        else:
+            for honor_title_dic in info['honor_title']:
+                if honor_title_str != '':
+                    #year和type之间是一个空格，而两个头衔之间是一个逗号
+                    honor_title_str += (','+str(honor_title_dic['year'])+' '+honor_title_dic['type'])
+                else:
+                    honor_title_str += (str(honor_title_dic['year'])+' '+honor_title_dic['type'])
+            info['honor_title'] = honor_title_str
+
+
+
+    #防止页面出现undefined
     if 'department' in info:
         if info['department'] == None:
             info['department'] = ''
     else:
         department_dic = {'department':''}
         info.update(department_dic)
-    print(info)
+
 
 
 def data_treate(teacher_info_from_basic,teacher_info_from_feedback):
@@ -215,7 +233,34 @@ def data_treate(teacher_info_from_basic,teacher_info_from_feedback):
     for key in teacher_info_from_basic:
         if key not in teacher_info_from_feedback:
             teacher_info_from_feedback[key] = teacher_info_from_basic[key]
-    #将从数据库中取出的数据处理一下，便于展示
+
+    #处理honor_title字段，basic_info里hornor_title是[{'type':'','year':''}]，而agent_feedback中是['荣誉称号,'’,...]
+    if 'honor_title' in teacher_info_from_feedback:
+        #两个都是[] 或者feedback字典中的数据来自basic_info
+        if teacher_info_from_feedback['honor_title'] == teacher_info_from_basic['honor_title']:
+            pass
+        #teacher_info_from_feedback中honor_title不为空，而teacher_info_basic中的为空,将其转为[{'type':'','year':''}]格式
+        elif teacher_info_from_feedback['honor_title'] != [] and teacher_info_from_basic['honor_title'] == []:
+            honor_title_list = []
+            for title in teacher_info_from_feedback['honor_title']:
+                honor_title_list.append({'type':title,'year':''})
+            teacher_info_from_feedback['honor_title'] = honor_title_list
+        #两者都不为空,将basic中的年份添加到feedback中
+        else:
+            honor_title_list = []
+            for title in teacher_info_from_feedback['honor_title']:
+                #标志
+                flag = 0
+                for honor_dic in teacher_info_from_basic['honor_title']:
+                    if title == honor_dic.get('type'):
+                        flag =1
+                        honor_title_list.append({'type':title,'year':honor_dic.get('year')})
+                if flag == 0:
+                    honor_title_list.append({'type': title, 'year': ''})
+                flag = 0
+            teacher_info_from_feedback['honor_title'] = honor_title_list
+
+            #将从数据库中取出的数据处理一下，便于展示
     data_pretreate(teacher_info_from_basic)
     data_pretreate(teacher_info_from_feedback)
     teacher_data = {

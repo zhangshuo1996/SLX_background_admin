@@ -11,7 +11,7 @@ $(".display").on("click",(e)=>{
     let teacher_id = e.attr('data-teacher_id');
     let object_id = e.attr('data-_id');
     //将左侧表格中字体颜色设置为黑色，否则在一次改变为红色后，这个td将变为红色
-    for (var i=1; i<=30; i += 3)
+    for (var i=1; i<=37; i += 3)
         {
             $(thd[i]).css("color","black");
             $(thd[i+1]).css("color","black");
@@ -48,12 +48,13 @@ $(".display").on("click",(e)=>{
                     +from_basic["department"];
                 thd[13].textContent = from_basic["title"];
                 thd[16].textContent = from_basic["position"];
-                thd[19].textContent = from_basic["domain"];
-                thd[22].textContent = from_basic["email"];
-                thd[25].textContent = from_basic["office_number"];
-                thd[28].textContent = from_basic["phone_number"];
-                thd[31].textContent = from_basic["edu_exp"];
-                thd[34].textContent = from_basic["work_exp"];
+                thd[19].textContent = from_basic["honor_title"];
+                thd[22].textContent = from_basic["domain"];
+                thd[25].textContent = from_basic["email"];
+                thd[28].textContent = from_basic["office_number"];
+                thd[31].textContent = from_basic["phone_number"];
+                thd[34].textContent = from_basic["edu_exp"];
+                thd[37].textContent = from_basic["work_exp"];
                 //填充到左边第三栏
                 thd[2].textContent = from_feedback["name"];
                 thd[5].textContent = from_feedback["gender"];
@@ -62,13 +63,14 @@ $(".display").on("click",(e)=>{
                     +from_feedback["department"];
                 thd[14].textContent = from_feedback["title"];
                 thd[17].textContent = from_feedback["position"];
-                thd[20].textContent = from_feedback["domain"];
-                thd[23].textContent = from_feedback["email"];
-                thd[26].textContent = from_feedback["office_number"];
-                thd[29].textContent = from_feedback["phone_number"];
-                thd[32].textContent = from_feedback["edu_exp"];
-                thd[35].textContent = from_feedback["work_exp"];
-                for (var i=1; i<=34; i += 3)
+                thd[20].textContent = from_feedback["honor_title"];
+                thd[23].textContent = from_feedback["domain"];
+                thd[26].textContent = from_feedback["email"];
+                thd[29].textContent = from_feedback["office_number"];
+                thd[32].textContent = from_feedback["phone_number"];
+                thd[35].innerHTML = from_feedback["edu_exp"];
+                thd[38].innerHTML = from_feedback["work_exp"];
+                for (var i=1; i<=37; i += 3)
                 {
                     if(thd[i].textContent !== thd[i+1].textContent){
                         $(thd[i+1]).css("color","red");
@@ -91,7 +93,7 @@ $(".display").on("click",(e)=>{
     let institution = e.attr('data-institution');
     let title = e.attr('data-title');
     let position = e.attr('data-position');
-    let honor = e.attr('data-honor');
+    let honor_str = e.attr('data-honor_title');
     let email = e.attr('data-email');
     let phone_number = e.attr('data-phone_number');
     let office_number = e.attr('data-office_number');
@@ -102,6 +104,7 @@ $(".display").on("click",(e)=>{
     let domain = e.attr("data-domain");
     let department = e.attr("data-department");
     let work_exp = e.attr("data-work_exp");
+
     //现在决定第二第三列的数据都从数据库中取出，因为feedback中的数据字段不同，而决定将两列数据格式固定，所以需要将feedbakc中缺省的字段从
     //数据库中取出，以分辨是它它发来的是没有这个字段，还是发来的内容中这个字段内容为空
     //将取出的信息填充到左边table的第三列，所以从thd[2]开始,逐个加3，就都是修改第三列
@@ -115,15 +118,16 @@ $(".display").on("click",(e)=>{
     thd[11].textContent = school+institution+department;
     thd[14].textContent = title;
     thd[17].textContent = position;
-    thd[20].textContent = domain;
-    thd[23].textContent = email;
-    thd[26].textContent = office_number;
-    thd[29].textContent = phone_number;
+    thd[20].textContent = honor_str;
+    thd[23].textContent = domain;
+    thd[26].textContent = email;
+    thd[29].textContent = office_number;
+    thd[32].textContent = phone_number;
     if(edu_exp==="None") {
-        thd[29].textContent = "";
+        thd[35].textContent = "";
     }
-    else thd[32].textContent = edu_exp;
-    thd[35].textContent = work_exp;
+    else thd[35].innerHTML = edu_exp;
+    thd[38].innerHTML = work_exp;
     //隐藏数据，用于点击保存时提交给后台
     tbody.attr("data-school",school);
     tbody.attr("data-institution",institution);
@@ -165,12 +169,13 @@ $(".preservation").on("click",(e)=>{
     let department = tbody.attr("data-apartment");
     let title = thd[14].textContent;
     let position = thd[17].textContent;
-    let domain = thd[20].textContent;
-    let email = thd[23].textContent;
-    let office_number = thd[26].textContent;
-    let phone_number = thd[29].textContent;
-    let edu_exp = thd[32].textContent;
-    let work_exp = thd[35].textContent;
+    let honor_str = thd[20].textContent;
+    let domain = thd[23].textContent;
+    let email = thd[26].textContent;
+    let office_number = thd[29].textContent;
+    let phone_number = thd[32].textContent;
+    let edu_exp = thd[35].textContent;
+    let work_exp = thd[38].textContent;
     let teacher_id = tbody.attr("data-teacher_id");
     let object_id = tbody.attr("data-object_id");
 
@@ -179,6 +184,7 @@ $(".preservation").on("click",(e)=>{
         "name": name,
         "gender":gender,
         "birth_year":birth_year,
+        "honor_str":honor_str,
         "domain":domain,
         "email": email,
         "office_number": office_number,
