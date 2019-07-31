@@ -154,6 +154,7 @@ def get_school():
     school_list = school.distinct("school")
     return school_list
 
+
 def get_institution(school_name):
     """
     根据学校名获取这个学校的所有学院名
@@ -164,6 +165,22 @@ def get_institution(school_name):
     school = mongo_operator.get_collection("basic_info")
     institution = school.distinct("institution",{"school":school_name})
     return institution
+
+
+def get_teacher(school, institution):
+    """
+    根据学校名和学院名获取其下的所有教师
+    by zhang
+    :param school:
+    :param teacher:
+    :return: 教师列表：[]
+    """
+    mongo = MongoOperator(**MongoDB_CONFIG)
+    basic_info_col = mongo.get_collection("basic_info")
+    teacher_list = list(basic_info_col.find({"school": school, "institution": institution}, {"_id": 0, "name": 1, "id": 1, "department": 1}))
+
+    return teacher_list
+
 
 def get_teacher_info(school,institution,teacher):
     """
@@ -180,6 +197,25 @@ def get_teacher_info(school,institution,teacher):
     else:
         teacher_dict = teacher_list.find_one({"school":school,"name":teacher})
     return teacher_dict
+
+
+def update_dept(dept_info):
+    """
+    更新系的信息
+    by zhang
+    :param dept_info: [
+                        {teacher_id: **, department: **}
+                        {}
+                        ...
+                        ]
+    :return:
+    """
+    mongo = MongoOperator(**MongoDB_CONFIG)
+    basic_info_col = mongo.get_collection("basic_info")
+
+    for dict in dept_info:
+        basic_info_col.update({"id": int(dict["teacher_id"])}, {"$set": {"department": dict["department"].strip()}})
+
 
 def update_teacher(id,teacher_info):
     """

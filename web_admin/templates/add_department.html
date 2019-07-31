@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% block title %}添加系的信息{% endblock %}
+
+{% block main %}
+    <div class="container">
+
+        <div>
+            <label>选择学校</label>
+            <select class="" id="select_school" onchange="get_institution">
+
+            </select>
+
+            <label>选择学院</label>
+            <select id="select_institution" onchange="change_content">
+
+            </select>
+        </div>
+        <div class="bg-white tm-block">
+            <div class="row table-container">
+                <table class="table" id="dept_table">
+                    <div class="dropdown-menu">
+                        <thead>
+                            <tr id="flag">
+                                <th scope="col">序号</th>
+                                <th scope="col">学校</th>
+                                <th scope="col">学院</th>
+                                <th scope="col">教师</th>
+                                <th scope="col">所在系</th>
+                            </tr>
+                        </thead>
+                    </div>
+                </table>
+            </div>
+            <button class="btn btn-primary preservation" onclick="save_department()" style="float:right;margin-bottom:10px">提交</button>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block script %}
+    <script src="../static/js/add_department.js"></script>
+{% endblock %}
+

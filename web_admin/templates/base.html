@@ -68,6 +68,7 @@
                                         教师信息管理
                                     </a>
                                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                        <a class="dropdown-item" href="{{ url_for('teacher_info.add_department') }}">添加系的信息</a>
                                         <a class="dropdown-item" href="{{ url_for('teacher_info.teacher_info') }}">反馈信息管理</a>
                                         <a class="dropdown-item" href="{{ url_for('teacher_info.teacher_search') }}">教师信息查询</a>
                                     </div>

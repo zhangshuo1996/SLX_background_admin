@@ -137,11 +137,47 @@ def teacher_search():
         return json.dumps({"success": False, "message": "发生错误，请稍后重试！"})
 
 
-@teacher_info_bp.route("/get_institution",methods=["POST"])
+@teacher_info_bp.route('/add_department')
+@login_required
+def add_department():
+    """
+    跳转至添加系的页面
+    by zhang
+    :return:
+    """
+    try:
+        # school = teacher_info_service.get_school()
+        # institution = teacher_info_service.get_institution(school[0])
+        # institution.append(" ")
+        return render_template("add_department.html")
+    except Exception as e:
+        print(e)
+        return json.dumps({"success": False, "message": "发生错误，请稍后重试！"})
+
+
+@teacher_info_bp.route('/get_school')
+@login_required
+def get_school():
+    """
+    获取所有学校的列表
+    by zhang
+    :return:
+    """
+    try:
+        school_list = teacher_info_service.get_school()
+
+        return json.dumps({"success": True, "school": school_list})
+    except Exception as e:
+        print("获取学校是发生异常：  ", e)
+
+        return json.dumps({"success": False, "message": "获取学校发生异常"})
+
+
+@teacher_info_bp.route("/get_institution", methods=["POST"])
 @login_required
 def get_institution():
     """
-    获取所有学校名
+    根据学校获取其下所有的学院
     :return:
     """
     school = request.form.get("school")
@@ -151,6 +187,52 @@ def get_institution():
     except Exception as e:
         print(e)
         return json.dumps({"success": False, "message": "操作失败"})
+
+
+@teacher_info_bp.route("/get_teacher", methods=["POST"])
+@login_required
+def get_teacher():
+    """
+    根据学校名和学院名获取其下的所有教师id以及其对应的系
+    by zhang
+    :return:
+    """
+
+    school = request.form.get("school")
+    institution = request.form.get("institution")
+    try:
+        teacher_list = teacher_info_service.get_teacher(school, institution)
+        return json.dumps({"success": True, "teacher_list": teacher_list})
+    except Exception as e:
+        print("获取教师发生异常：  ", e)
+        return json.dumps({"success": False, "message": e})
+
+
+@teacher_info_bp.route("/save_dept", methods=["POST"])
+@login_required
+def save_dept():
+    """
+    根据传来的数据将教师所在的系的信息入库
+    传来的数据：
+        {
+            “school”：school，
+            “institution”： institution，
+            “dept_info”： [
+                {"teacher":teacher, "department":dept}
+                ....
+            ]
+        }
+    :return:
+    """
+
+    str = request.form.get("dept_info")
+    dept_info = json.loads(str)
+    try:
+        teacher_info_service.update_dept(dept_info)
+        return json.dumps({"success": True})
+    except Exception as e:
+        print(e)
+        return json.dumps({"success": False})
 
 
 @teacher_info_bp.route("/get_teacher_info", methods=["POST"])
@@ -218,6 +300,7 @@ def update_teacher():
     except BaseException:
         return json.dumps({"success": False, "message": "更新失败!"})
 
+
 @teacher_info_bp.route("/delete_teacher",methods=["POST"])
 @login_required
 def delete_teacher():
@@ -231,6 +314,7 @@ def delete_teacher():
         return json.dumps({"success":True,"message":"删除成功！"})
     except:
         return json.dumps({"success":False,"message":"删除失败！"})
+
 
 @teacher_info_bp.route("/add_teacher",methods=["POST"])
 @login_required
