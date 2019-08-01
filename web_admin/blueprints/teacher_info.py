@@ -25,11 +25,12 @@ def teacher_info():
 @login_required
 def get_info_by_tid():
     """
-    将处理中的教师的信息从basic_info表中，发往前端，以便于和商务提交的修改信息做对比
-    :return: 该教师再basic_info表中的基本信息
+    将处理中的那条修改记录中的教师信息从basic_info表和agent_feedback表中取出，发往前端，以便于做对比
+    :return: teacher_info_from_db，json格式的数据，既有agent_feedback中的信息，也有这条记录对应的basic_info中教师的信息
     """
-    teacher_id = request.form.get('teacher_id', type=int)
     # 根据id从数据中获取教师信息
+    teacher_id = request.form.get('teacher_id', type=int)
+    #根据_id从agent_feedback中获取商务提交的信息
     _id = ObjectId(request.form.get('_id'))
     teacher_info_from_db = teacher_info_service.get_info_from_db(teacher_id,_id)
     return json.dumps(teacher_info_from_db)

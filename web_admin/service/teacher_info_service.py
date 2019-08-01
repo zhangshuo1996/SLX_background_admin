@@ -23,6 +23,12 @@ def get_modify_info():
     # 处理数据
     for info in modify_info:
         info['timestamp'] = info['timestamp'].strftime("%Y-%m-%d")
+        if 'honor_title' in info:
+            honor_title_list = []
+            if info['honor_title'] != []:
+                for title in info['honor_title']:
+                    honor_title_list.append({'type': title, 'year': ''})
+            info['honor_title'] = honor_title_list
         data_pretreate(info)
     return modify_info
 
@@ -111,7 +117,6 @@ def get_school():
     获取数据库中所有学校名
     :return:
     """
-
     mongo_operator = MongoOperator(**MongoDB_CONFIG)
     school = mongo_operator.get_collection("basic_info")
     school_list = school.distinct("school")
@@ -211,9 +216,6 @@ def data_pretreate(info):
                 else:
                     honor_title_str += (str(honor_title_dic['year'])+' '+honor_title_dic['type'])
             info['honor_title'] = honor_title_str
-
-
-
     #防止页面出现undefined
     if 'department' in info:
         if info['department'] == None:
@@ -223,12 +225,11 @@ def data_pretreate(info):
         info.update(department_dic)
 
 
-
 def data_treate(teacher_info_from_basic,teacher_info_from_feedback):
     """
     将agent_feedback中的数据和basic_info中的数据做对比，将teacher_info_from_db中有的字段而teacher_info_from_feedback中没有的字段添加到teacher_info_from_feeedback中
-    以区分到底是它发来的数据中没有这个字段，还是这个字段为空。
-    :return:
+    ，以区分到底商务发来的数据中没有这个字段，还是这个字段为空。
+    :return:teacher_data，包含数据库中这个老师的数据和商务提交的修改信息
     """
     for key in teacher_info_from_basic:
         if key not in teacher_info_from_feedback:
