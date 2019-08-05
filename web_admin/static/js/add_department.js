@@ -12,10 +12,10 @@ $.ajax({
     if(data["success"] == true){
         var schools = data["school"];
         console.log("schools", schools);
-        var html;
+        var html = ``;
 
         for(var i = 0; i < schools.length; i++){
-            school = schools[i];
+            var school = schools[i];
             html += '<option>'+ school + '</option>';
         }
         $('#select_school').html(html);
@@ -25,9 +25,14 @@ $.ajax({
     }
 })
 
+
+/**
+ * 当学校下拉框发生变化时，加载当前学校的所有学院数据
+ */
 $("#select_school").on("change", function () {
     loadInstitution();
 })
+
 
 /**
  * 加载当前学校的所有学院数据
@@ -37,6 +42,7 @@ function loadInstitution(){
     console.log("cur_school", cur_school);
     getInstitutions(cur_school);
 }
+
 
 /**
  * 根据学校名获取其所有学院信息
@@ -79,6 +85,7 @@ function setInstitution(institution_list){
     }
     $("#select_institution").html(options);
 
+
 //    将学院信息填充到下拉框后， 加载table中的信息
     cur_school = $('#select_school').children("option:selected").text();
     cur_institution = $('#select_institution').children("option:selected").text();
@@ -88,6 +95,9 @@ function setInstitution(institution_list){
 }
 
 
+/**
+ * 当学院下拉框发生变化时，重新加载教师
+ */
 $("#select_institution").on("change", function () {
     cur_school = $('#select_school').children("option:selected").text();
     cur_institution = $('#select_institution').children("option:selected").text();
@@ -95,8 +105,9 @@ $("#select_institution").on("change", function () {
     getTeachers(cur_school, cur_institution);
 })
 
+
 /**
- * 根据学校名和学院名异步获取其下的所有教师名字和id
+ * 根据学校名和学院名异步获取其下的所有教师名字和id，并加载
  * @param school， institution
  */
 function getTeachers(school, institution) {
@@ -133,7 +144,9 @@ function getTeachers(school, institution) {
 
             let $tr = $("#flag");
             console.log("------------------before add");
+            // 删除HTML页面中现有的教师以及系的信息
             $tr.siblings("tr").remove();
+            //加载新的信息
             $tr.after(insert_html);
 
         }else{
@@ -147,12 +160,19 @@ function getTeachers(school, institution) {
 //
 // })
 
+
+/**
+ * 设置访问标志
+ */
 function change(e) {
     e.setAttribute("is_change", "1");
     // console.log(e.getAttribute("is_change"))
 }
 
 
+/**
+ * 保存被更改的系的信息
+ */
 function save_department(){
     temp = $("#flag").siblings();
     console.log("--------");
@@ -174,6 +194,7 @@ function save_department(){
             });
         }
     }
+
     dept_dict = {
         "dept_info": JSON.stringify(dept_info)
     }
@@ -193,8 +214,5 @@ function save_department(){
             toggle_alert("更新失败")
         }
     })
-
-
-    // console.log(temp);
 }
 
