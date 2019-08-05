@@ -48,7 +48,6 @@ function  teacher_search() {
         dataType: "json",
         success: function (response) {
             if(response.success) {
-                console.log(response.teacher_info)
                 //将获取到的教师信息在表格中展示
                 $("#id").val(response.teacher_info['id'])
                 $("#name").val(response.teacher_info['name'])
@@ -83,9 +82,30 @@ function update_teacher() {
     let phone_number = $("#phone_number").val()
     let office_number = $("#office_number").val()
     let edu_exp = $("#edu_exp").val()
+    if(name == ""){
+        toggle_alert("False", "", "教师名不能为空！");
+        return false;
+    }
+    if(school==""){
+        toggle_alert("False", "", "学校名不能为空！");
+        return false;
+    }
+    if(institution==""){
+        toggle_alert("False", "", "学院名不能为空！");
+        return false;
+    }
+    var re =  /^(\w-*\.*)+@(\w-?)+(\.\w{2,})+$/;
+    if(email!=""&&!re.test(email)){
+        toggle_alert("False", "", "请输入正确的邮箱！");
+        return false;
+    }
+    var re = /^1\d{10}$/;
+    if(phone_number!=""&&!re.test(phone_number)){
+        toggle_alert("False", "", "请输入正确的手机号码！");
+        return false;
+    }
     let data = {"id":id,"name":name, "school":school, "institution":institution, "title":title, "email":email, "birth_year":birth_year,"office_number":office_number,
     "phone_number":phone_number,"edu_exp":edu_exp}
-    console.log(data)
     $.ajax({
         type:"POST",
         url:"/update_teacher",
@@ -140,23 +160,94 @@ function add_teacher() {
     let phone_number = $("#phone_number").val()
     let office_number = $("#office_number").val()
     let edu_exp = $("#edu_exp").val()
+    if(name == ""){
+        toggle_alert("False", "", "教师名不能为空！");
+        return false;
+    }
+    if(school==""){
+        toggle_alert("False", "", "学校名不能为空！");
+        return false;
+    }
+    if(institution==""){
+        toggle_alert("False", "", "学院名不能为空！");
+        return false;
+    }
+    var re =  /^(\w-*\.*)+@(\w-?)+(\.\w{2,})+$/;
+    if(email!=""&&!re.test(email)) {
+        toggle_alert("False", "", "请输入正确的邮箱！");
+        return false;
+    }
+    var re = /^1\d{10}$/;
+    if(phone_number!=""&&!re.test(phone_number)){
+        toggle_alert("False", "", "请输入正确的手机号码！");
+        return false;
+    }
     let data = {"name":name, "school":school, "institution":institution, "title":title, "email":email, "birth_year":birth_year,"office_number":office_number,
     "phone_number":phone_number,"edu_exp":edu_exp}
+    let teacher_data = {"teacher":name, "school":school, "institution":institution}
+    console.log(teacher_data)
+    console.log(data)
+    //判断数据库中是否存在此老师信息
     $.ajax({
         type:"POST",
-        url:"/add_teacher",
-        data: data,
+        url:"/get_teacher_info",
+        data: teacher_data,
         dataType: "json",
         success: function (response) {
-            if(response.success) {
-                toggle_alert(response.success, "", response.message);
+            console.log(response.success)
+            if (response.success) {
+                if(confirm('已存在此老师信息，是否继续添加?')) {
+                    $.ajax({
+                        type: "POST",
+                        url: "/add_teacher",
+                        data: data,
+                        dataType: "json",
+                        success: function (response) {
+                            if (response.success) {
+                                toggle_alert(response.success, "", response.message);
+                            }
+                            else {
+                                toggle_alert(response.success, "", response.message);
+                            }
+                        },
+                        error: function () {
+                            toggle_alert("False", "", "请求失败!");
+                        }
+                    });
+                }
             }
-            else {
-                toggle_alert(response.success, "", response.message);
+            else{
+                $.ajax({
+                        type: "POST",
+                        url: "/add_teacher",
+                        data: data,
+                        dataType: "json",
+                        success: function (response) {
+                            if (response.success) {
+                                toggle_alert(response.success, "", response.message);
+                            }
+                            else {
+                                toggle_alert(response.success, "", response.message);
+                            }
+                        },
+                        error: function () {
+                            toggle_alert("False", "", "请求失败!");
+                        }
+                    });
             }
-        },
-        error: function(){
-            toggle_alert("False", "", "请求失败!");
-    }
+        }
     });
+}
+
+function clear_info() {
+    //清空教师信息
+    $("#name").val("");
+    $("#university").val("");
+    $("#college").val("");
+    $("#title").val("");
+    $("#email").val("");
+    $("#birth_year").val("");
+    $("#phone_number").val("");
+    $("#office_number").val("");
+    $("#edu_exp").val("");
 }

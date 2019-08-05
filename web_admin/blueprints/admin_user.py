@@ -38,8 +38,10 @@ def add_user():
     user_type = request.form.get("type")
     if user_type == "高校商务":
         user_type = "0"
-    else:
+    elif user_type == "企业商务":
         user_type = "1"
+    else:
+        user_type = "2"
     user = {
         "tel_number" : tel_number,
         "type" : user_type,
@@ -96,8 +98,10 @@ def update_user():
 
     if user_type == "高校商务":
         user_type = "0"
-    else:
+    elif user_type == "企业商务":
         user_type = "1"
+    else:
+        user_type = "2"
 
     user_dict = {
         "id": id,

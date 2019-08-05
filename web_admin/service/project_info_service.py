@@ -20,8 +20,8 @@ def get_project_info() :
     project_info.sort(key=lambda x: x['timestamp'])
     for info in project_info:
         info['timestamp']  = info['timestamp'].strftime("%Y-%m-%d")
-        info['start_time'] = info['start_time'].strftime("%Y-%m-%d")
-        info['end_time'] = info['end_time'].strftime("%Y-%m-%d")
+        # info['start_time'] = info['start_time'].strftime("%Y-%m-%d")
+        # info['end_time'] = info['end_time'].strftime("%Y-%m-%d")
     return project_info
 
 def insert_project_info(data,_id):

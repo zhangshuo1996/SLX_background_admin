@@ -4,6 +4,7 @@ import functools
 from web_admin.service import user_service
 from web_admin.utils.mongo_operator import MongoOperator
 from web_admin.config import MongoDB_CONFIG
+from web_admin.service.teacher_info_service import get_modify_info
 from bson.objectid import ObjectId
 
 
@@ -28,39 +29,7 @@ def login_required(func):
 @auth_bp.route('/')
 def index():
     if 'username' in session:
-        mogo_operator = MongoOperator(**MongoDB_CONFIG)
-        # 从数据库中取出商务提交的所有信息
-        agent_feedback = mogo_operator.get_collection('agent_feedback')
-        # status=0表示未处理的信息
-        modify_info = list(agent_feedback.find({'status': 1}))
-        modify_info.sort(key=lambda x: x['timestamp'])
-        # 处理数据
-        for info in modify_info:
-            info['timestamp'] = info['timestamp'].strftime("%Y-%m-%d")
-            # 将honor转为字符串，便于前台js处理
-            if 'honor' in info:
-                if info['honor'] != [] and info['honor'] != None:
-                    honors_str = ''
-                    for honor in info['honor']:
-                        if honors_str != '':
-                            honors_str += (' ' + honor)
-                        else:
-                            honors_str += honor
-                    info['honor'] = honors_str
-                else:
-                    info['honor'] = ''
-                # 将domain转为字符串，便于前台js处理
-            if 'domain' in info:
-                if info['domain'] != [] and info['domain'] != None:
-                    domain_str = ''
-                    for domain in info['domain']:
-                        if domain_str != '':
-                            domain_str += (' ' + domain)
-                        else:
-                            domain_str += domain
-                    info['domain'] = domain_str
-                else:
-                    info['domain'] = ''
+        modify_info = get_modify_info()
         return render_template('teacher_info.html',modify_info =modify_info)
     else:
         return  render_template("login.html")
@@ -77,41 +46,9 @@ def login():
     if user:
         session['username'] = user["name"]
         session['uid'] = user["id"]
-        mogo_operator = MongoOperator(**MongoDB_CONFIG)
         # 从数据库中取出商务提交的所有信息
-        agent_feedback = mogo_operator.get_collection('agent_feedback')
-        # status=0表示未处理的信息
-        modify_info = list(agent_feedback.find({'status': 1}))
-        modify_info.sort(key=lambda x: x['timestamp'])
-        # 处理数据
-        for info in modify_info:
-            info['timestamp'] = info['timestamp'].strftime("%Y-%m-%d")
-            # 将honor转为字符串，便于前台js处理
-
-            if 'honor' in info:
-                if info['honor'] != [] and info['honor'] != None:
-                    honors_str = ''
-                    for honor in info['honor']:
-                        if honors_str != '':
-                            honors_str += (' ' + honor)
-                        else:
-                            honors_str += honor
-                    info['honor'] = honors_str
-                else:
-                    info['honor'] = ''
-                # 将domain转为字符串，便于前台js处理
-            if 'domain' in info:
-                if info['domain'] != [] and info['domain'] != None:
-                    domain_str = ''
-                    for domain in info['domain']:
-                        if domain_str != '':
-                            domain_str += (' ' + domain)
-                        else:
-                            domain_str += domain
-                    info['domain'] = domain_str
-                else:
-                    info['domain'] = ''
-        return render_template('teacher_info.html',modify_info =modify_info)
+        modify_info = get_modify_info()
+        return render_template('teacher_info.html', modify_info=modify_info)
     else:
         flash('登录失败，请检测账号或者密码后重新输入', 'danger')
         return render_template('login.html')
