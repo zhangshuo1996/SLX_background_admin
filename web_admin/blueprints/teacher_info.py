@@ -257,8 +257,10 @@ def get_teacher_info():
     school = request.form.get("school")
     institution = request.form.get("institution")
     teacher = request.form.get("teacher")
+    print(school,",",institution,",",teacher)
     try:
         teacher_list = teacher_info_service.get_teacher_info(school,institution,teacher)
+        print(teacher_list)
         if teacher_list is not None:
             teacher_info = {
                 "id": teacher_list['id'],
