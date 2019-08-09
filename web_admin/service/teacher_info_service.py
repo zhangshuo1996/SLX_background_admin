@@ -137,7 +137,7 @@ def get_teacher_info(school,institution,teacher):
     """
     mongo_operator = MongoOperator(**MongoDB_CONFIG)
     teacher_list = mongo_operator.get_collection("basic_info")
-    if institution == "":
+    if institution != "":
         teacher_dict = teacher_list.find_one({"school":school,"institution":institution,"name":teacher})
     else:
         teacher_dict = teacher_list.find_one({"school":school,"name":teacher})
