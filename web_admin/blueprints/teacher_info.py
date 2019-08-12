@@ -84,6 +84,12 @@ def data_preservation():
             'award_id': []
         }
 
+        ################## by chen ###########
+        # 保证写入数据库中的数据不含 None
+        for key in data.keys():
+            if data[key] is None:
+                data[key] = ""
+        #####################################
         max_id = teacher_info_service.get_max_teacher_id()
         data['id'] = max_id+1
         try:
@@ -111,10 +117,12 @@ def data_preservation():
             'edu_exp': request.form.get('edu_exp'),
             'work_exp': request.form.get('work_exp')
         }
-        for k, value in data.items():
-            if value is None:
-                value = ""
-
+        ################## by chen ###########
+        # 保证写入数据库中的数据不含 None
+        for key in data.keys():
+            if data[key] is None:
+                data[key] = ""
+        #####################################
         try:
             teacher_info_service.update_basic_info(teacher_id, obj_id, data)
             return json.dumps({"success": True, "message": "操作成功"})

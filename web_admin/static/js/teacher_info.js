@@ -151,7 +151,6 @@ $(".display").on("click",(e)=>{
                 thd[28].textContent="";
                 thd[31].textContent ="";
                 thd[34].textContent = ""
-
     }
 
 });
@@ -174,8 +173,8 @@ $(".preservation").on("click",(e)=>{
     let email = thd[26].textContent;
     let office_number = thd[29].textContent;
     let phone_number = thd[32].textContent;
-    let edu_exp = thd[35].textContent;
-    let work_exp = thd[38].textContent;
+    let edu_exp = thd[35].innerHTML;
+    let work_exp = thd[38].innerHTML;
     let teacher_id = tbody.attr("data-teacher_id");
     let object_id = tbody.attr("data-object_id");
 
